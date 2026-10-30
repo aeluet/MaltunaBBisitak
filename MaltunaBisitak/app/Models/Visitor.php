@@ -84,6 +84,23 @@ class Visitor extends Model
     }
 
     /**
+     * Reuse a visitor only when email and names all match, so a public form never edits someone else's record.
+     *
+     * @param  array{first_name: string, last_name: string, email?: string|null}  $attributes
+     */
+    public static function matchOrCreate(array $attributes): self
+    {
+        $existing = filled($attributes['email'] ?? null)
+            ? static::where('email', $attributes['email'])
+                ->where('first_name', $attributes['first_name'])
+                ->where('last_name', $attributes['last_name'])
+                ->first()
+            : null;
+
+        return $existing ?? static::create($attributes);
+    }
+
+    /**
      * Every word must match a name, email, document number or origin, so "ane zubi" finds Ane Zubiaurre.
      */
     #[Scope]

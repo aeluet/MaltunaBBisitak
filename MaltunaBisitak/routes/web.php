@@ -6,11 +6,17 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CloseVisitController;
 use App\Http\Controllers\ContractorShiftController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\KioskController;
+use App\Http\Controllers\KioskGroupController;
+use App\Http\Controllers\KioskLabelController;
+use App\Http\Controllers\KioskMeetingController;
 use App\Http\Controllers\MeetingController;
+use App\Http\Controllers\MeetingRegistrationController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VisitAttendanceController;
 use App\Http\Controllers\VisitController;
 use App\Http\Controllers\VisitorController;
+use App\Http\Controllers\VisitRegistrationController;
 use App\Http\Controllers\VisitTypeController;
 use App\Http\Controllers\WalkInController;
 use App\Http\Middleware\SetPublicLocale;
@@ -29,7 +35,36 @@ Route::prefix('{locale}')
         Route::get('/', [BookingController::class, 'create'])->name('bookings.create');
         Route::post('/', [BookingController::class, 'store'])->middleware('throttle:bookings')->name('bookings.store');
         Route::get('eskerrik-asko', [BookingController::class, 'thanks'])->name('bookings.thanks');
+
+        // Mugikorretik izena ematea QR bidez (PW008, BP001–BP004): edonondik eskuragarri.
+        Route::get('bisita/{visit:uuid}', [VisitRegistrationController::class, 'create'])->name('registrations.visits.create');
+        Route::post('bisita/{visit:uuid}', [VisitRegistrationController::class, 'store'])
+            ->middleware('throttle:registrations')
+            ->name('registrations.visits.store');
+        Route::get('bisita/{visit:uuid}/eginda', [VisitRegistrationController::class, 'done'])->name('registrations.visits.done');
+
+        Route::get('bilera/{meeting:uuid}', [MeetingRegistrationController::class, 'create'])->name('registrations.meetings.create');
+        Route::post('bilera/{meeting:uuid}', [MeetingRegistrationController::class, 'store'])
+            ->middleware('throttle:registrations')
+            ->name('registrations.meetings.store');
+        Route::get('bilera/{meeting:uuid}/eginda', [MeetingRegistrationController::class, 'done'])->name('registrations.meetings.done');
+
+        // Pedestala (PW001–PW007): ikastetxeko saretik bakarrik.
+        Route::prefix('pedestala')->name('kiosk.')->middleware('internal.network')->group(function () {
+            Route::get('/', [KioskController::class, 'home'])->name('home');
+            Route::post('sarrera', [KioskController::class, 'checkIn'])->name('check-in');
+            Route::get('eginda', [KioskController::class, 'done'])->name('done');
+            Route::get('bilerak/{meeting:uuid}', [KioskMeetingController::class, 'show'])->name('meetings.show');
+            Route::post('bilerak/{meeting:uuid}', [KioskMeetingController::class, 'store'])->name('meetings.store');
+            Route::get('taldeak/{visit:uuid}', [KioskGroupController::class, 'show'])->name('groups.show');
+            Route::post('taldeak/{visit:uuid}', [KioskGroupController::class, 'store'])->name('groups.store');
+        });
     });
+
+// Pedestaleko etiketak: URL sinatua, print_label_html_pdf.ps1 script-ak inprimatzeko.
+Route::get('pedestala/etiketa/{visitor}', KioskLabelController::class)
+    ->middleware(['internal.network', 'signed'])
+    ->name('kiosk.label');
 
 // Langileen eremua: ikastetxeko saretik bakarrik (AP001).
 Route::middleware('internal.network')->group(function () {

@@ -38,6 +38,9 @@ return [
     'string' => 'El campo :attribute debe ser un texto.',
 
     'attributes' => [
+        'first_name' => 'nombre',
+        'last_name' => 'apellido',
+        'email' => 'correo electrónico',
         'types' => 'tipo de visita',
         'other_type' => 'otro tipo de visita',
         'visit_date' => 'fecha de la visita',

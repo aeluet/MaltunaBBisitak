@@ -155,7 +155,7 @@
                 </div>
             </x-card>
 
-            <x-button class="w-full px-6 py-3 text-base sm:w-auto">{{ __('public.submit') }}</x-button>
+            <x-button size="lg" class="w-full sm:w-auto">{{ __('public.submit') }}</x-button>
         </form>
     @endif
 </x-layouts.public>

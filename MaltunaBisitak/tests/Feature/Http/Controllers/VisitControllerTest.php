@@ -68,6 +68,17 @@ describe('show', function () {
     });
 });
 
+describe('show for approved visits', function () {
+    it('offers the QR link where group members can register from their phone', function () {
+        $visit = pendingVisitWithVisitors();
+        $visit->approve($this->receptionist);
+
+        $this->actingAs($this->receptionist)
+            ->get(route('visits.show', $visit))
+            ->assertSee(route('registrations.visits.create', ['locale' => 'es', 'visit' => $visit]));
+    });
+});
+
 describe('approve', function () {
     it('approves the request and emails each visitor with an email their own QR code', function () {
         $visit = pendingVisitWithVisitors();

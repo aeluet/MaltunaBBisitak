@@ -13,3 +13,14 @@ it('finds visitors when every searched word matches some field', function () {
 it('normalises document numbers', function (string $input) {
     expect(Visitor::normalizeDocumentNumber($input))->toBe('12345678Z');
 })->with(['12345678Z', '12345678 z', '12345678-z', ' 1234 5678 Z ']);
+
+it('reuses a visitor only when the email and both names match', function () {
+    $ane = Visitor::factory()->create(['first_name' => 'Ane', 'last_name' => 'Zubiaurre', 'email' => 'ane@example.com', 'origin' => 'Lehengoa']);
+
+    $same = Visitor::matchOrCreate(['first_name' => 'Ane', 'last_name' => 'Zubiaurre', 'email' => 'ane@example.com', 'origin' => 'Berria']);
+    $sharedEmail = Visitor::matchOrCreate(['first_name' => 'Jon', 'last_name' => 'Zubiaurre', 'email' => 'ane@example.com']);
+
+    expect($same->is($ane))->toBeTrue()
+        ->and($ane->refresh()->origin)->toBe('Lehengoa')
+        ->and($sharedEmail->is($ane))->toBeFalse();
+});

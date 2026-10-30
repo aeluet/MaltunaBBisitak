@@ -79,7 +79,7 @@ class BookingController extends Controller
             $visit->types()->attach($request->validated('types', []));
             $visit->visitors()->attach(
                 collect($request->validated('visitors'))
-                    ->map(fn (array $visitor) => $this->findOrCreateVisitor($visitor, $visit->origin)->id)
+                    ->map(fn (array $visitor) => Visitor::matchOrCreate([...$visitor, 'origin' => $visit->origin])->id)
                     ->unique()
                     ->all(),
             );
@@ -98,23 +98,6 @@ class BookingController extends Controller
     public function thanks(): View
     {
         return view('bookings.thanks');
-    }
-
-    /**
-     * Reuse a visitor only when email and names all match, so a public request never edits someone else's record.
-     *
-     * @param  array{first_name: string, last_name: string, email?: string|null, country: string}  $data
-     */
-    private function findOrCreateVisitor(array $data, string $origin): Visitor
-    {
-        $existing = filled($data['email'] ?? null)
-            ? Visitor::where('email', $data['email'])
-                ->where('first_name', $data['first_name'])
-                ->where('last_name', $data['last_name'])
-                ->first()
-            : null;
-
-        return $existing ?? Visitor::create([...$data, 'origin' => $origin]);
     }
 
     /**

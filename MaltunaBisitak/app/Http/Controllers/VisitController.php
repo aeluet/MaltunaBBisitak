@@ -62,6 +62,7 @@ class VisitController extends Controller
                 ->whereIn('status', Visit::SCHEDULED_STATUSES)
                 ->count(),
             'hosts' => User::where('is_active', true)->orderBy('name')->pluck('name', 'id'),
+            'registrationUrl' => route('registrations.visits.create', ['locale' => $visit->locale, 'visit' => $visit]),
         ]);
     }
 

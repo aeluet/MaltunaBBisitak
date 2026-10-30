@@ -28,6 +28,13 @@
                     </form>
                 @endif
             </div>
+
+            <div class="mt-6 border-t border-slate-200 pt-6 text-center">
+                <h2 class="mb-2 font-semibold">Izen-ematea mugikorretik</h2>
+                <p class="mb-4 text-sm text-slate-500">Partaideek QR hau eskaneatuta eman dezakete izena.</p>
+                <x-qr-code :data="$registrationUrl" :size="160" class="mx-auto" />
+                <a href="{{ $registrationUrl }}" class="mt-3 block text-xs break-all text-brand-700 hover:underline">{{ $registrationUrl }}</a>
+            </div>
         </x-card>
 
         <x-card class="lg:col-span-2">

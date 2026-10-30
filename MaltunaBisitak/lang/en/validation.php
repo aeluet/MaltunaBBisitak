@@ -6,6 +6,8 @@
 return [
 
     'attributes' => [
+        'first_name' => 'first name',
+        'last_name' => 'last name',
         'types' => 'type of visit',
         'other_type' => 'other type of visit',
         'visit_date' => 'date of the visit',

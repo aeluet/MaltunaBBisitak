@@ -50,7 +50,10 @@ class MeetingController extends Controller
     {
         $meeting->load(['visitors' => fn (BelongsToMany $query) => $query->orderByPivot('created_at')]);
 
-        return view('meetings.show', ['meeting' => $meeting]);
+        return view('meetings.show', [
+            'meeting' => $meeting,
+            'registrationUrl' => route('registrations.meetings.create', ['locale' => 'eu', 'meeting' => $meeting]),
+        ]);
     }
 
     public function edit(Meeting $meeting): View

@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ $title ? "$title · " : '' }}{{ __('public.school') }}</title>
     @foreach (SetPublicLocale::LOCALES as $locale)
-        <link rel="alternate" hreflang="{{ $locale }}" href="{{ route(Route::currentRouteName(), ['locale' => $locale]) }}">
+        <link rel="alternate" hreflang="{{ $locale }}" href="{{ route(Route::currentRouteName(), [...request()->route()->parameters(), 'locale' => $locale]) }}">
     @endforeach
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
@@ -19,7 +19,7 @@
 
             <nav aria-label="{{ __('public.language') }}" class="flex gap-1 text-sm">
                 @foreach (['eu' => 'Euskara', 'es' => 'Castellano', 'en' => 'English'] as $locale => $languageName)
-                    <a href="{{ route(Route::currentRouteName(), ['locale' => $locale]) }}"
+                    <a href="{{ route(Route::currentRouteName(), [...request()->route()->parameters(), 'locale' => $locale]) }}"
                        lang="{{ $locale }}" hreflang="{{ $locale }}" title="{{ $languageName }}"
                        @if (app()->isLocale($locale)) aria-current="true" @endif
                        @class([
