@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\DB;
 
 #[Fillable(['visit_date', 'origin', 'is_group', 'group_size', 'other_type', 'status', 'locale', 'host_id', 'notes'])]
 class Visit extends Model
@@ -73,10 +75,39 @@ class Visit extends Model
     }
 
     /**
+     * @return HasMany<VisitAttendance, $this>
+     */
+    public function attendances(): HasMany
+    {
+        return $this->hasMany(VisitAttendance::class);
+    }
+
+    /**
      * @return BelongsToMany<VisitType, $this>
      */
     public function types(): BelongsToMany
     {
         return $this->belongsToMany(VisitType::class);
+    }
+
+    /**
+     * Check out everyone still inside and close the visit.
+     */
+    public function close(): void
+    {
+        DB::transaction(function (): void {
+            $this->attendances()->active()->update(['checked_out_at' => now()]);
+            $this->forceFill(['status' => VisitStatus::Closed, 'closed_at' => now()])->save();
+        });
+    }
+
+    /**
+     * Close the visit once every registered visitor has left; visitors who never arrived keep it open.
+     */
+    public function closeIfEveryoneLeft(): void
+    {
+        if ($this->attendances()->whereNull('checked_out_at')->doesntExist()) {
+            $this->close();
+        }
     }
 }

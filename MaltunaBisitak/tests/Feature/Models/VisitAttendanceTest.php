@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\VisitStatus;
 use App\Models\Visit;
 use App\Models\VisitAttendance;
 use App\Models\Visitor;
@@ -23,4 +24,24 @@ it('keeps the visitor of an attendance resolvable after the visitor is soft dele
     $visitor->delete();
 
     expect(VisitAttendance::first()->visitor->full_name)->toBe('Miren Etxeberria');
+});
+
+it('closes the visit when the last registered visitor checks out', function () {
+    $visit = Visit::factory()->approved()->today()->create();
+    $visit->visitors()->attach(Visitor::factory()->create(), ['checked_in_at' => now()]);
+
+    $visit->attendances()->sole()->checkOut();
+
+    expect($visit->refresh()->status)->toBe(VisitStatus::Closed);
+});
+
+it('keeps the visit open while a registered visitor has not arrived yet', function () {
+    $visit = Visit::factory()->approved()->today()->create();
+    [$inside, $expected] = Visitor::factory(2)->create();
+    $visit->visitors()->attach($inside, ['checked_in_at' => now()]);
+    $visit->visitors()->attach($expected);
+
+    $visit->attendances()->whereBelongsTo($inside)->sole()->checkOut();
+
+    expect($visit->refresh()->status)->toBe(VisitStatus::Approved);
 });

@@ -16,13 +16,7 @@ class VisitorController extends Controller
         $search = trim((string) $request->query('q'));
 
         $visitors = Visitor::query()
-            ->when($search !== '', function (Builder $query) use ($search): void {
-                $query->where(function (Builder $query) use ($search): void {
-                    foreach (['first_name', 'last_name', 'email', 'document_number', 'origin'] as $column) {
-                        $query->orWhere($column, 'like', "%{$search}%");
-                    }
-                });
-            })
+            ->when($search !== '', fn (Builder $query) => $query->search($search))
             ->withCount('visits')
             ->orderBy('last_name')
             ->orderBy('first_name')

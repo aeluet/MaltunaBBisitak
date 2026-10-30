@@ -2,12 +2,15 @@
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\AvailableDateController;
+use App\Http\Controllers\CloseVisitController;
 use App\Http\Controllers\ContractorShiftController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MeetingController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VisitAttendanceController;
 use App\Http\Controllers\VisitorController;
 use App\Http\Controllers\VisitTypeController;
+use App\Http\Controllers\WalkInController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -27,6 +30,15 @@ Route::middleware('internal.network')->group(function () {
         Route::get('panela', DashboardController::class)->name('dashboard');
 
         Route::middleware('role:admin,harrera')->group(function () {
+            Route::get('sarrera-berria', [WalkInController::class, 'create'])->name('walk-ins.create');
+            Route::post('sarrera-berria', [WalkInController::class, 'store'])->name('walk-ins.store');
+
+            Route::post('bertaratzeak/{attendance}/sarrera', [VisitAttendanceController::class, 'checkIn'])
+                ->name('attendances.check-in');
+            Route::post('bertaratzeak/{attendance}/irteera', [VisitAttendanceController::class, 'checkOut'])
+                ->name('attendances.check-out');
+            Route::post('bisitak/{visit}/itxi', CloseVisitController::class)->name('visits.close');
+
             Route::resource('bisitariak', VisitorController::class)
                 ->except('destroy')
                 ->parameters(['bisitariak' => 'visitor'])

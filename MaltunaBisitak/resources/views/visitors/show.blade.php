@@ -47,7 +47,7 @@
                             <div>
                                 <p class="font-medium">{{ $visit->visit_date->format('Y/m/d') }}</p>
                                 <p class="text-slate-500">
-                                    {{ $visit->types->map->nameFor('eu')->push($visit->other_type)->filter()->join(', ') ?: 'Mota zehaztu gabe' }}
+                                    {{ $visit->types->map->nameFor('eu')->push($visit->other_type)->filter()->join(', ') ?: str($visit->notes)->limit(60)->toString() ?: 'Mota zehaztu gabe' }}
                                     @if ($visit->host)
                                         · {{ $visit->host->name }}
                                     @endif

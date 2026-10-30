@@ -25,6 +25,20 @@ class VisitAttendance extends Pivot
         ];
     }
 
+    public function checkIn(?string $badgeNumber = null): void
+    {
+        $this->update(['checked_in_at' => now(), 'badge_number' => $badgeNumber]);
+    }
+
+    /**
+     * Register the exit and close the visit when this was the last visitor inside.
+     */
+    public function checkOut(): void
+    {
+        $this->update(['checked_out_at' => now()]);
+        $this->visit->closeIfEveryoneLeft();
+    }
+
     /**
      * Visitors currently inside the school.
      */

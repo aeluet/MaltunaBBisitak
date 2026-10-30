@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Database\Factories\VisitorFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -22,6 +24,16 @@ class Visitor extends Model
      * ICU region codes that are not countries.
      */
     private const array NON_COUNTRY_REGIONS = ['EU', 'EZ', 'QO', 'UN', 'XA', 'XB', 'ZZ'];
+
+    private const array SEARCHABLE_COLUMNS = ['first_name', 'last_name', 'email', 'document_number', 'origin'];
+
+    /**
+     * "12345678 z" and "12345678-Z" are the same document as "12345678Z".
+     */
+    public static function normalizeDocumentNumber(string $documentNumber): string
+    {
+        return strtoupper(preg_replace('/[\s-]+/', '', $documentNumber));
+    }
 
     /**
      * ISO 3166 country codes with their names in the application locale, sorted by name.
@@ -61,6 +73,21 @@ class Visitor extends Model
     protected function fullName(): Attribute
     {
         return Attribute::get(fn (): string => "{$this->first_name} {$this->last_name}");
+    }
+
+    /**
+     * Every word must match a name, email, document number or origin, so "ane zubi" finds Ane Zubiaurre.
+     */
+    #[Scope]
+    protected function search(Builder $query, string $term): void
+    {
+        foreach (preg_split('/\s+/', trim($term), flags: PREG_SPLIT_NO_EMPTY) as $word) {
+            $query->where(function (Builder $query) use ($word): void {
+                foreach (self::SEARCHABLE_COLUMNS as $column) {
+                    $query->orWhere($column, 'like', "%{$word}%");
+                }
+            });
+        }
     }
 
     /**

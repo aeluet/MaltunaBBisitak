@@ -40,6 +40,12 @@ class DemoSeeder extends Seeder
                 ]);
             });
 
+        // An approved group arriving later today.
+        $expectedGroup = Visit::factory()->group(25)->approved()->today()
+            ->create(['reviewed_by' => $admin->id, 'host_id' => $teachers->random()->id]);
+        $expectedGroup->types()->attach($types->random());
+        $expectedGroup->visitors()->attach(Visitor::factory()->create());
+
         // Pending group requests from the public booking form.
         Visit::factory(4)->group(fake()->numberBetween(10, 30))->create()
             ->each(function (Visit $visit) use ($types): void {

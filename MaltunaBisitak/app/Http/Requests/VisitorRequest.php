@@ -24,7 +24,7 @@ class VisitorRequest extends FormRequest
     {
         if ($this->filled('document_number')) {
             $this->merge([
-                'document_number' => strtoupper(preg_replace('/[\s-]+/', '', $this->input('document_number'))),
+                'document_number' => Visitor::normalizeDocumentNumber($this->input('document_number')),
             ]);
         }
     }
