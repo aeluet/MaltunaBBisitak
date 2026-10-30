@@ -26,15 +26,28 @@
             </div>
         </div>
 
+        @php
+            $navigation = [
+                ['route' => 'dashboard', 'pattern' => 'dashboard', 'label' => 'Panela', 'roles' => null],
+                ['route' => 'visitors.index', 'pattern' => 'visitors.*', 'label' => 'Bisitariak', 'roles' => [\App\Enums\Role::Admin, \App\Enums\Role::Harrera]],
+                ['route' => 'visit-types.index', 'pattern' => 'visit-types.*', 'label' => 'Bisita motak', 'roles' => [\App\Enums\Role::Admin]],
+                ['route' => 'users.index', 'pattern' => 'users.*', 'label' => 'Erabiltzaileak', 'roles' => [\App\Enums\Role::Admin]],
+            ];
+        @endphp
+
         <nav class="mx-auto flex max-w-6xl gap-1 overflow-x-auto px-4 text-sm">
-            <a href="{{ route('dashboard') }}"
-               @class([
-                   'rounded-t-md px-3 py-2',
-                   'bg-slate-100 font-medium text-brand-800' => request()->routeIs('dashboard'),
-                   'hover:bg-white/10' => ! request()->routeIs('dashboard'),
-               ])>
-                Panela
-            </a>
+            @foreach ($navigation as $item)
+                @continue($item['roles'] && ! auth()->user()->hasRole(...$item['roles']))
+
+                <a href="{{ route($item['route']) }}"
+                   @class([
+                       'shrink-0 rounded-t-md px-3 py-2',
+                       'bg-slate-100 font-medium text-brand-800' => request()->routeIs($item['pattern']),
+                       'hover:bg-white/10' => ! request()->routeIs($item['pattern']),
+                   ])>
+                    {{ $item['label'] }}
+                </a>
+            @endforeach
         </nav>
     </header>
 
@@ -42,6 +55,8 @@
         @if ($title)
             <h1 class="mb-6 text-2xl font-semibold text-slate-900">{{ $title }}</h1>
         @endif
+
+        <x-flash />
 
         {{ $slot }}
     </main>
