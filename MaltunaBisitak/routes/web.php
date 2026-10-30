@@ -9,6 +9,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MeetingController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VisitAttendanceController;
+use App\Http\Controllers\VisitController;
 use App\Http\Controllers\VisitorController;
 use App\Http\Controllers\VisitTypeController;
 use App\Http\Controllers\WalkInController;
@@ -50,6 +51,11 @@ Route::middleware('internal.network')->group(function () {
                 ->name('attendances.check-in');
             Route::post('bertaratzeak/{attendance}/irteera', [VisitAttendanceController::class, 'checkOut'])
                 ->name('attendances.check-out');
+            Route::get('bisitak', [VisitController::class, 'index'])->name('visits.index');
+            Route::get('bisitak/{visit}', [VisitController::class, 'show'])->name('visits.show');
+            Route::post('bisitak/{visit}/onartu', [VisitController::class, 'approve'])->name('visits.approve');
+            Route::post('bisitak/{visit}/ukatu', [VisitController::class, 'reject'])->name('visits.reject');
+            Route::post('bisitak/{visit}/bertan-behera', [VisitController::class, 'cancel'])->name('visits.cancel');
             Route::post('bisitak/{visit}/itxi', CloseVisitController::class)->name('visits.close');
 
             Route::resource('bisitariak', VisitorController::class)

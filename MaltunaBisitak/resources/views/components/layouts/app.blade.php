@@ -31,6 +31,7 @@
             $staff = [Role::Admin, Role::Harrera];
             $navigation = [
                 ['route' => 'dashboard', 'pattern' => 'dashboard', 'label' => 'Panela', 'roles' => null],
+                ['route' => 'visits.index', 'pattern' => 'visits.*', 'label' => 'Bisitak', 'roles' => $staff],
                 ['route' => 'visitors.index', 'pattern' => 'visitors.*', 'label' => 'Bisitariak', 'roles' => $staff],
                 ['route' => 'meetings.index', 'pattern' => 'meetings.*', 'label' => 'Bilerak', 'roles' => $staff],
                 ['route' => 'contractor-shifts.index', 'pattern' => 'contractor-shifts.*', 'label' => 'Kanpo langileak', 'roles' => $staff],

@@ -45,3 +45,13 @@ it('keeps the visit open while a registered visitor has not arrived yet', functi
 
     expect($visit->refresh()->status)->toBe(VisitStatus::Approved);
 });
+
+it('gives every registered visitor a unique check-in code without look-alike characters', function () {
+    $visit = Visit::factory()->create();
+    $visit->visitors()->attach(Visitor::factory(2)->create());
+
+    $codes = $visit->attendances()->pluck('code');
+
+    expect($codes)->each->toMatch('/^[2-9A-HJ-NP-Z]{10}$/')
+        ->and($codes->unique())->toHaveCount(2);
+});

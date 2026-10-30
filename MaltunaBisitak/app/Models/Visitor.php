@@ -106,7 +106,7 @@ class Visitor extends Model
         return $this->belongsToMany(Visit::class)
             ->using(VisitAttendance::class)
             ->as('attendance')
-            ->withPivot(['id', 'checked_in_at', 'checked_out_at', 'badge_number', 'label_printed_at'])
+            ->withPivot(['id', 'code', 'checked_in_at', 'checked_out_at', 'badge_number', 'label_printed_at'])
             ->withTimestamps();
     }
 

@@ -76,6 +76,22 @@ return [
             'intro' => 'Eskerrik asko Miguel Altuna bisitatzeko interesagatik. Hauek dira jaso ditugun datuak:',
             'next_steps' => 'Eskaera berrikusi ondoren, beste email bat bidaliko dizugu erantzunarekin.',
         ],
+        'approved' => [
+            'subject' => 'Zure bisita baieztatu dugu',
+            'intro' => 'Pozik hartuko zaituztegu! Zure bisita baieztatu dugu:',
+            'host' => 'Nork hartuko zaituen',
+            'qr_intro' => 'Iristean, erakutsi QR kode hau harreran edo pasatu pedestaleko irakurgailutik:',
+        ],
+        'rejected' => [
+            'subject' => 'Ezin dugu zure bisita onartu',
+            'intro' => 'Sentitzen dugu, baina ezin dugu eskatu zenuen bisita onartu. Data: :date.',
+        ],
+        'cancelled' => [
+            'subject' => 'Zure bisita bertan behera geratu da',
+            'intro' => 'Sentitzen dugu, baina zure bisita bertan behera utzi behar izan dugu. Data: :date.',
+        ],
+        'school_message' => 'Ikastetxearen mezua',
+        'request_again' => 'Eskatu beste egun bat',
         'regards' => 'Agur bero bat,',
         'signature' => 'Miguel Altuna',
     ],

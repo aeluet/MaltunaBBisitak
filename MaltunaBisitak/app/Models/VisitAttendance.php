@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Concerns\HasUniqueStringIds;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
@@ -14,7 +15,38 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 #[Table('visit_visitor')]
 class VisitAttendance extends Pivot
 {
+    use HasUniqueStringIds;
+
+    /**
+     * Check-in code characters, without look-alikes such as 0/O or 1/I/L.
+     */
+    private const string CODE_ALPHABET = '23456789ABCDEFGHJKMNPQRSTUVWXYZ';
+
+    private const int CODE_LENGTH = 10;
+
     public $incrementing = true;
+
+    /**
+     * The check-in code shown as a QR is generated on insert, like a uuid, so seeded rows get one too.
+     *
+     * @return array<int, string>
+     */
+    public function uniqueIds(): array
+    {
+        return ['code'];
+    }
+
+    public function newUniqueId(): string
+    {
+        return collect(range(1, self::CODE_LENGTH))
+            ->map(fn () => self::CODE_ALPHABET[random_int(0, strlen(self::CODE_ALPHABET) - 1)])
+            ->join('');
+    }
+
+    protected function isValidUniqueId($value): bool
+    {
+        return is_string($value) && preg_match('/^['.self::CODE_ALPHABET.']{'.self::CODE_LENGTH.'}$/', $value) === 1;
+    }
 
     protected function casts(): array
     {

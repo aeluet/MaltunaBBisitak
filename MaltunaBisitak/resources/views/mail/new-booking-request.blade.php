@@ -14,7 +14,7 @@
 @endif
 </x-mail::panel>
 
-<x-mail::button :url="route('dashboard')">
-Ireki kudeaketa gunea
+<x-mail::button :url="route('visits.show', $visit)">
+Ikusi eta erabaki
 </x-mail::button>
 </x-mail::message>

@@ -45,7 +45,7 @@
                     @forelse ($visitor->visits as $visit)
                         <li class="flex flex-wrap items-center justify-between gap-2 px-6 py-3 text-sm">
                             <div>
-                                <p class="font-medium">{{ $visit->visit_date->format('Y/m/d') }}</p>
+                                <a href="{{ route('visits.show', $visit) }}" class="font-medium text-brand-700 hover:underline">{{ $visit->visit_date->format('Y/m/d') }}</a>
                                 <p class="text-slate-500">
                                     {{ $visit->typeNames('eu') ?: str($visit->notes)->limit(60)->toString() ?: 'Mota zehaztu gabe' }}
                                     @if ($visit->host)
@@ -58,7 +58,7 @@
                                     {{ $visit->attendance->checked_in_at->format('H:i') }}
                                     – {{ $visit->attendance->checked_out_at?->format('H:i') ?? 'barruan' }}
                                 @else
-                                    <x-badge :color="$visit->status === \App\Enums\VisitStatus::Pending ? 'amber' : 'slate'">{{ $visit->status->label() }}</x-badge>
+                                    <x-badge :color="$visit->status->color()">{{ $visit->status->label() }}</x-badge>
                                 @endif
                             </div>
                         </li>

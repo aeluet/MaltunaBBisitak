@@ -78,7 +78,7 @@ class Visit extends Model
         return $this->belongsToMany(Visitor::class)
             ->using(VisitAttendance::class)
             ->as('attendance')
-            ->withPivot(['id', 'checked_in_at', 'checked_out_at', 'badge_number', 'label_printed_at'])
+            ->withPivot(['id', 'code', 'checked_in_at', 'checked_out_at', 'badge_number', 'label_printed_at'])
             ->withTimestamps();
     }
 
@@ -96,6 +96,21 @@ class Visit extends Model
     public function types(): BelongsToMany
     {
         return $this->belongsToMany(VisitType::class);
+    }
+
+    public function approve(User $reviewer, ?string $message = null): void
+    {
+        $this->recordDecision(VisitStatus::Approved, $reviewer, $message);
+    }
+
+    public function reject(User $reviewer, ?string $message = null): void
+    {
+        $this->recordDecision(VisitStatus::Rejected, $reviewer, $message);
+    }
+
+    public function cancel(User $reviewer, ?string $message = null): void
+    {
+        $this->recordDecision(VisitStatus::Cancelled, $reviewer, $message);
     }
 
     /**
@@ -128,6 +143,19 @@ class Visit extends Model
             $this->attendances()->active()->update(['checked_out_at' => now()]);
             $this->forceFill(['status' => VisitStatus::Closed, 'closed_at' => now()])->save();
         });
+    }
+
+    /**
+     * The message is sent to the visitors with the decision and kept as a record of what they were told.
+     */
+    private function recordDecision(VisitStatus $status, User $reviewer, ?string $message): void
+    {
+        $this->forceFill([
+            'status' => $status,
+            'reviewed_by' => $reviewer->id,
+            'reviewed_at' => now(),
+            'response_message' => $message,
+        ])->save();
     }
 
     /**

@@ -76,6 +76,22 @@ return [
             'intro' => 'Gracias por tu interés en visitar Miguel Altuna. Estos son los datos que hemos recibido:',
             'next_steps' => 'Después de revisar la solicitud, te enviaremos otro email con la respuesta.',
         ],
+        'approved' => [
+            'subject' => 'Hemos confirmado tu visita',
+            'intro' => '¡Os esperamos! Hemos confirmado tu visita:',
+            'host' => 'Os recibirá',
+            'qr_intro' => 'Al llegar, muestra este código QR en recepción o pásalo por el lector del pedestal:',
+        ],
+        'rejected' => [
+            'subject' => 'No podemos confirmar tu visita',
+            'intro' => 'Lo sentimos, pero no podemos confirmar la visita que solicitaste. Fecha: :date.',
+        ],
+        'cancelled' => [
+            'subject' => 'Tu visita ha sido cancelada',
+            'intro' => 'Lo sentimos, pero hemos tenido que cancelar tu visita. Fecha: :date.',
+        ],
+        'school_message' => 'Mensaje del centro',
+        'request_again' => 'Solicitar otro día',
         'regards' => 'Un cordial saludo,',
         'signature' => 'Miguel Altuna',
     ],

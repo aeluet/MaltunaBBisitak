@@ -76,6 +76,22 @@ return [
             'intro' => 'Thank you for your interest in visiting Miguel Altuna. These are the details we received:',
             'next_steps' => 'Once we have reviewed your request, we will send you another email with our reply.',
         ],
+        'approved' => [
+            'subject' => 'Your visit is confirmed',
+            'intro' => 'We look forward to seeing you! Your visit is confirmed:',
+            'host' => 'You will be welcomed by',
+            'qr_intro' => 'When you arrive, show this QR code at reception or scan it at the kiosk:',
+        ],
+        'rejected' => [
+            'subject' => 'We cannot confirm your visit',
+            'intro' => 'We are sorry, but we cannot confirm the visit you requested. Date: :date.',
+        ],
+        'cancelled' => [
+            'subject' => 'Your visit has been cancelled',
+            'intro' => 'We are sorry, but we have had to cancel your visit. Date: :date.',
+        ],
+        'school_message' => 'Message from the school',
+        'request_again' => 'Request another day',
         'regards' => 'Kind regards,',
         'signature' => 'Miguel Altuna',
     ],

@@ -16,10 +16,10 @@
             <p class="mt-1 text-xs text-slate-500">Astean {{ $checkInCounts['week'] }} · Hilean {{ $checkInCounts['month'] }}</p>
         </x-card>
 
-        <x-card class="p-5">
+        <a href="{{ route('visits.index', ['egoera' => 'zain']) }}" class="block rounded-xl bg-white p-5 shadow-sm ring-1 ring-slate-200 hover:ring-brand-600">
             <p class="text-sm text-slate-500">Onartzeko zain</p>
             <p class="mt-1 text-3xl font-semibold text-slate-900">{{ $pendingVisitsCount }}</p>
-        </x-card>
+        </a>
 
         <a href="{{ route('contractor-shifts.index') }}" class="block rounded-xl bg-white p-5 shadow-sm ring-1 ring-slate-200 hover:ring-brand-600">
             <p class="text-sm text-slate-500">Kanpo langileak lanean</p>

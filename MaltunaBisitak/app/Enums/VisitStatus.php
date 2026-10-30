@@ -20,4 +20,17 @@ enum VisitStatus: string
             self::Closed => 'Itxita',
         };
     }
+
+    /**
+     * Colour of the status badge in the staff area.
+     */
+    public function color(): string
+    {
+        return match ($this) {
+            self::Pending => 'amber',
+            self::Approved => 'green',
+            self::Rejected, self::Cancelled => 'red',
+            self::Closed => 'slate',
+        };
+    }
 }

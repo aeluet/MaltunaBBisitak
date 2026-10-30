@@ -20,7 +20,7 @@
                         @if ($visit->is_group)
                             <x-badge color="blue">Taldea · {{ $visit->group_size }} pertsona</x-badge>
                         @endif
-                        <x-badge :color="$visit->status === \App\Enums\VisitStatus::Pending ? 'amber' : 'slate'">{{ $visit->status->label() }}</x-badge>
+                        <x-badge :color="$visit->status->color()">{{ $visit->status->label() }}</x-badge>
                     </div>
                 </div>
 
