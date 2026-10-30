@@ -12,6 +12,7 @@ use App\Http\Controllers\KioskLabelController;
 use App\Http\Controllers\KioskMeetingController;
 use App\Http\Controllers\MeetingController;
 use App\Http\Controllers\MeetingRegistrationController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VisitAttendanceController;
 use App\Http\Controllers\VisitController;
@@ -114,6 +115,9 @@ Route::middleware('internal.network')->group(function () {
 
         Route::middleware('role:admin')->group(function () {
             Route::delete('bisitariak/{visitor}', [VisitorController::class, 'destroy'])->name('visitors.destroy');
+
+            Route::get('txostenak', [ReportController::class, 'index'])->name('reports.index');
+            Route::get('txostenak/esportatu', [ReportController::class, 'export'])->name('reports.export');
 
             Route::resource('erabiltzaileak', UserController::class)
                 ->except(['show', 'destroy'])

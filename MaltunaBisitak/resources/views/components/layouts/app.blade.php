@@ -35,6 +35,7 @@
                 ['route' => 'visitors.index', 'pattern' => 'visitors.*', 'label' => 'Bisitariak', 'roles' => $staff],
                 ['route' => 'meetings.index', 'pattern' => 'meetings.*', 'label' => 'Bilerak', 'roles' => $staff],
                 ['route' => 'contractor-shifts.index', 'pattern' => 'contractor-shifts.*', 'label' => 'Kanpo langileak', 'roles' => $staff],
+                ['route' => 'reports.index', 'pattern' => 'reports.*', 'label' => 'Txostenak', 'roles' => [Role::Admin]],
                 ['route' => 'available-dates.index', 'pattern' => 'available-dates.*', 'label' => 'Egutegia', 'roles' => [Role::Admin]],
                 ['route' => 'visit-types.index', 'pattern' => 'visit-types.*', 'label' => 'Bisita motak', 'roles' => [Role::Admin]],
                 ['route' => 'users.index', 'pattern' => 'users.*', 'label' => 'Erabiltzaileak', 'roles' => [Role::Admin]],
