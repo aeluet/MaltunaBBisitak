@@ -42,10 +42,18 @@ class Visitor extends Model
      */
     public static function countryOptions(): array
     {
-        return once(function (): array {
+        return self::countriesIn(app()->getLocale());
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    private static function countriesIn(string $locale): array
+    {
+        return once(function () use ($locale): array {
             $countries = [];
 
-            foreach (ResourceBundle::create(app()->getLocale(), 'ICUDATA-region')['Countries'] as $code => $name) {
+            foreach (ResourceBundle::create($locale, 'ICUDATA-region')['Countries'] as $code => $name) {
                 if (preg_match('/^[A-Z]{2}$/', $code) && ! in_array($code, self::NON_COUNTRY_REGIONS, true)) {
                     $countries[$code] = $name;
                 }

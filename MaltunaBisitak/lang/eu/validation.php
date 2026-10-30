@@ -47,6 +47,7 @@ return [
         'array' => ':attribute eremuak gutxienez :min elementu izan behar ditu.',
     ],
     'numeric' => ':attribute eremuak zenbaki bat izan behar du.',
+    'prohibited' => ':attribute eremua ez dago baimenduta.',
     'password' => [
         'letters' => ':attribute eremuak gutxienez letra bat izan behar du.',
         'mixed' => ':attribute eremuak gutxienez letra larri bat eta letra xehe bat izan behar ditu.',
@@ -57,6 +58,7 @@ return [
     'regex' => ':attribute eremuaren formatua ez da baliozkoa.',
     'required' => ':attribute eremua derrigorrezkoa da.',
     'required_if' => ':attribute eremua derrigorrezkoa da :other :value denean.',
+    'required_without' => ':attribute eremua derrigorrezkoa da :values ez dagoenean.',
     'same' => ':attribute eta :other bat etorri behar dira.',
     'string' => ':attribute eremuak testu bat izan behar du.',
     'unique' => ':attribute hori erabilita dago jada.',
@@ -84,6 +86,15 @@ return [
         'signature' => 'sinadura',
         'max_visits' => 'bisita kopuru maximoa',
         'notes' => 'oharrak',
+        'types' => 'bisita mota',
+        'other_type' => 'beste bisita mota',
+        'is_group' => 'bisita modua',
+        'visitors' => 'bisitariak',
+        'visitors.*.first_name' => 'izena',
+        'visitors.*.last_name' => 'abizena',
+        'visitors.*.email' => 'posta elektronikoa',
+        'visitors.*.country' => 'herrialdea',
+        'privacy' => 'datuen erabilera',
     ],
 
 ];

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\VisitStatus;
 use App\Http\Requests\StoreAvailableDateRequest;
 use App\Http\Requests\UpdateAvailableDateRequest;
 use App\Models\AvailableDate;
@@ -16,11 +15,6 @@ use Illuminate\View\View;
 
 class AvailableDateController extends Controller
 {
-    /**
-     * Visits in these states take up a slot on their date.
-     */
-    private const array SCHEDULED_STATUSES = [VisitStatus::Pending, VisitStatus::Approved];
-
     public function index(Request $request): View
     {
         $month = $this->requestedMonth($request);
@@ -36,10 +30,7 @@ class AvailableDateController extends Controller
             'availableDates' => AvailableDate::whereBetween('date', $monthRange)
                 ->get()
                 ->keyBy(fn (AvailableDate $availableDate) => $availableDate->date->toDateString()),
-            'visitCounts' => Visit::whereBetween('visit_date', $monthRange)
-                ->whereIn('status', self::SCHEDULED_STATUSES)
-                ->pluck('visit_date')
-                ->countBy(fn (CarbonInterface $date) => $date->toDateString()),
+            'visitCounts' => Visit::scheduledCountsByDate(...$monthRange),
         ]);
     }
 
@@ -59,7 +50,7 @@ class AvailableDateController extends Controller
         return view('available-dates.edit', [
             'availableDate' => $availableDate,
             'visitCount' => Visit::whereDate('visit_date', $availableDate->date)
-                ->whereIn('status', self::SCHEDULED_STATUSES)
+                ->whereIn('status', Visit::SCHEDULED_STATUSES)
                 ->count(),
         ]);
     }

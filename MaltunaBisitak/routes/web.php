@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\AvailableDateController;
+use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CloseVisitController;
 use App\Http\Controllers\ContractorShiftController;
 use App\Http\Controllers\DashboardController;
@@ -11,11 +12,23 @@ use App\Http\Controllers\VisitAttendanceController;
 use App\Http\Controllers\VisitorController;
 use App\Http\Controllers\VisitTypeController;
 use App\Http\Controllers\WalkInController;
+use App\Http\Middleware\SetPublicLocale;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Web orri publikoa: edonondik eskuragarri (WP001), hiru hizkuntzatan (WP009).
+Route::get('/', fn (Request $request) => redirect()->route('bookings.create', [
+    'locale' => $request->getPreferredLanguage(SetPublicLocale::LOCALES),
+]));
+
+Route::prefix('{locale}')
+    ->whereIn('locale', SetPublicLocale::LOCALES)
+    ->middleware(SetPublicLocale::class)
+    ->group(function () {
+        Route::get('/', [BookingController::class, 'create'])->name('bookings.create');
+        Route::post('/', [BookingController::class, 'store'])->middleware('throttle:bookings')->name('bookings.store');
+        Route::get('eskerrik-asko', [BookingController::class, 'thanks'])->name('bookings.thanks');
+    });
 
 // Langileen eremua: ikastetxeko saretik bakarrik (AP001).
 Route::middleware('internal.network')->group(function () {

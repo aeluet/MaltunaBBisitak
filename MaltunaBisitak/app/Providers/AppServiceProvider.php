@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
@@ -24,5 +27,7 @@ class AppServiceProvider extends ServiceProvider
             'create' => 'sortu',
             'edit' => 'editatu',
         ]);
+
+        RateLimiter::for('bookings', fn (Request $request) => Limit::perHour(10)->by($request->ip()));
     }
 }

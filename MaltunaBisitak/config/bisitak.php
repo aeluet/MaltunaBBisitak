@@ -17,4 +17,16 @@ return [
         explode(',', (string) env('BISITAK_INTERNAL_NETWORKS', '')),
     ))),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Eskaera berrien jakinarazpenak
+    |--------------------------------------------------------------------------
+    |
+    | Web orri publikotik bisita eskaera bat jasotzean, helbide honetara
+    | bidaltzen da abisua. Hutsik badago, administratzaile aktibo guztiei.
+    |
+    */
+
+    'notification_email' => env('BISITAK_NOTIFICATION_EMAIL'),
+
 ];
