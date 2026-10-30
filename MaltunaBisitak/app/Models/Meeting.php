@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Database\Factories\MeetingFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -30,6 +31,16 @@ class Meeting extends Model
     public function uniqueIds(): array
     {
         return ['uuid'];
+    }
+
+    /**
+     * MySQL returns TIME columns as "10:30:00" and SQLite as "10:30"; always expose "10:30".
+     *
+     * @return Attribute<string|null, never>
+     */
+    protected function startsAt(): Attribute
+    {
+        return Attribute::get(fn (?string $value): ?string => $value ? substr($value, 0, 5) : null);
     }
 
     /**

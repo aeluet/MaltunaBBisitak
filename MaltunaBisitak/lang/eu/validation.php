@@ -75,6 +75,15 @@ return [
         'document_number' => 'NAN zenbakia',
         'visit_date' => 'bisitaren data',
         'group_size' => 'taldearen tamaina',
+        'title' => 'izenburua',
+        'location' => 'lekua',
+        'date' => 'data',
+        'starts_at' => 'hasiera ordua',
+        'company' => 'enpresa',
+        'checked_in_at' => 'sarrera ordua',
+        'signature' => 'sinadura',
+        'max_visits' => 'bisita kopuru maximoa',
+        'notes' => 'oharrak',
     ],
 
 ];

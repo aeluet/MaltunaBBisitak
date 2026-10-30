@@ -1,7 +1,10 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\AvailableDateController;
+use App\Http\Controllers\ContractorShiftController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\MeetingController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VisitorController;
 use App\Http\Controllers\VisitTypeController;
@@ -28,6 +31,19 @@ Route::middleware('internal.network')->group(function () {
                 ->except('destroy')
                 ->parameters(['bisitariak' => 'visitor'])
                 ->names('visitors');
+
+            Route::resource('bilerak', MeetingController::class)
+                ->parameters(['bilerak' => 'meeting'])
+                ->names('meetings');
+
+            Route::resource('kanpo-langileak', ContractorShiftController::class)
+                ->only(['index', 'create', 'store'])
+                ->parameters(['kanpo-langileak' => 'contractorShift'])
+                ->names('contractor-shifts');
+            Route::post('kanpo-langileak/{contractorShift}/irteera', [ContractorShiftController::class, 'checkOut'])
+                ->name('contractor-shifts.check-out');
+            Route::get('kanpo-langileak/{contractorShift}/sinadura', [ContractorShiftController::class, 'signature'])
+                ->name('contractor-shifts.signature');
         });
 
         Route::middleware('role:admin')->group(function () {
@@ -37,6 +53,11 @@ Route::middleware('internal.network')->group(function () {
                 ->except(['show', 'destroy'])
                 ->parameters(['erabiltzaileak' => 'user'])
                 ->names('users');
+
+            Route::resource('egutegia', AvailableDateController::class)
+                ->except(['create', 'show'])
+                ->parameters(['egutegia' => 'availableDate'])
+                ->names('available-dates');
 
             Route::resource('bisita-motak', VisitTypeController::class)
                 ->except(['show', 'destroy'])

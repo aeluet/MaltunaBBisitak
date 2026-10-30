@@ -17,6 +17,7 @@ class AvailableDate extends Model
     {
         return [
             'date' => 'date',
+            'max_visits' => 'integer',
         ];
     }
 }

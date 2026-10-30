@@ -1,4 +1,5 @@
 @props(['title' => null])
+@use('App\Enums\Role')
 
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
@@ -27,11 +28,15 @@
         </div>
 
         @php
+            $staff = [Role::Admin, Role::Harrera];
             $navigation = [
                 ['route' => 'dashboard', 'pattern' => 'dashboard', 'label' => 'Panela', 'roles' => null],
-                ['route' => 'visitors.index', 'pattern' => 'visitors.*', 'label' => 'Bisitariak', 'roles' => [\App\Enums\Role::Admin, \App\Enums\Role::Harrera]],
-                ['route' => 'visit-types.index', 'pattern' => 'visit-types.*', 'label' => 'Bisita motak', 'roles' => [\App\Enums\Role::Admin]],
-                ['route' => 'users.index', 'pattern' => 'users.*', 'label' => 'Erabiltzaileak', 'roles' => [\App\Enums\Role::Admin]],
+                ['route' => 'visitors.index', 'pattern' => 'visitors.*', 'label' => 'Bisitariak', 'roles' => $staff],
+                ['route' => 'meetings.index', 'pattern' => 'meetings.*', 'label' => 'Bilerak', 'roles' => $staff],
+                ['route' => 'contractor-shifts.index', 'pattern' => 'contractor-shifts.*', 'label' => 'Kanpo langileak', 'roles' => $staff],
+                ['route' => 'available-dates.index', 'pattern' => 'available-dates.*', 'label' => 'Egutegia', 'roles' => [Role::Admin]],
+                ['route' => 'visit-types.index', 'pattern' => 'visit-types.*', 'label' => 'Bisita motak', 'roles' => [Role::Admin]],
+                ['route' => 'users.index', 'pattern' => 'users.*', 'label' => 'Erabiltzaileak', 'roles' => [Role::Admin]],
             ];
         @endphp
 
