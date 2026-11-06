@@ -29,6 +29,10 @@ Route::get('/', fn (Request $request) => redirect()->route('bookings.create', [
     'locale' => $request->getPreferredLanguage(SetPublicLocale::LOCALES),
 ]));
 
+// Pedestalaren helbide laburrak; jatorrizko aplikazioak /pedestal erabiltzen zuen.
+Route::redirect('pedestala', '/eu/pedestala');
+Route::redirect('pedestal', '/eu/pedestala');
+
 Route::prefix('{locale}')
     ->whereIn('locale', SetPublicLocale::LOCALES)
     ->middleware(SetPublicLocale::class)

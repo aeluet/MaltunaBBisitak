@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\URL;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
- * The kiosk browser saves this file in C:\Etiquetas, where print_label_html_pdf.ps1 prints it (PW003, PW004).
+ * The kiosk browser saves this file in C:\Etiketak, where print_label_html_pdf.ps1 prints it (PW003, PW004).
  */
 class KioskLabelController extends Controller
 {

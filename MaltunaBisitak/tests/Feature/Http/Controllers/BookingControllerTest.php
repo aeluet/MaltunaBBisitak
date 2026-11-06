@@ -53,8 +53,9 @@ it('is reachable from outside the school network', function () {
 });
 
 describe('create', function () {
-    it('offers the active visit types and the open days in the chosen language', function () {
+    it('offers the active visit types and the open days from today on in the chosen language', function () {
         VisitType::factory()->inactive()->create(['name_es' => 'Tipo oculto']);
+        AvailableDate::factory()->create(['date' => '2026-11-09']);
         AvailableDate::factory()->create(['date' => '2026-11-10']);
         AvailableDate::factory()->create(['date' => '2026-11-13', 'max_visits' => 1]);
         Visit::factory()->create(['visit_date' => '2026-11-13']);
@@ -65,9 +66,10 @@ describe('create', function () {
             ->assertSee('Taller 4.0')
             ->assertDontSee('Tipo oculto')
             ->assertSee('noviembre de 2026')
+            ->assertSee('value="2026-11-10"', escape: false)
             ->assertSee('value="2026-11-12"', escape: false)
             ->assertDontSee('value="2026-11-13"', escape: false)
-            ->assertDontSee('value="2026-11-10"', escape: false);
+            ->assertDontSee('value="2026-11-09"', escape: false);
     });
 
     it('explains when there are no open days', function () {
@@ -96,6 +98,24 @@ describe('store', function () {
             ->and($visit->types->modelKeys())->toBe([$this->visitType->id])
             ->and($visit->visitors->map->full_name->sort()->values()->all())->toBe(['Ane Zubiaurre', 'Jon Agirre'])
             ->and(Visitor::where('email', 'ane@example.com')->sole()->origin)->toBe('Arizmendi Ikastola');
+    });
+
+    it('accepts a visit for today when today is open', function () {
+        AvailableDate::factory()->create(['date' => '2026-11-10']);
+
+        $this->post(route('bookings.store', ['locale' => 'eu']), [...$this->payload, 'visit_date' => '2026-11-10'])
+            ->assertSessionHasNoErrors();
+
+        expect(Visit::sole()->visit_date->toDateString())->toBe('2026-11-10');
+    });
+
+    it('rejects a past day even if it is still in the calendar', function () {
+        AvailableDate::factory()->create(['date' => '2026-11-09']);
+
+        $this->post(route('bookings.store', ['locale' => 'eu']), [...$this->payload, 'visit_date' => '2026-11-09'])
+            ->assertSessionHasErrors(['visit_date' => 'Egun hori ez dago bisitetarako erabilgarri. Aukeratu beste bat.']);
+
+        expect(Visit::count())->toBe(0);
     });
 
     it('accepts an individual visit with only a free-text type', function () {

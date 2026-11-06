@@ -24,7 +24,7 @@ export function initKiosk(root = document) {
         scannerInput.focus();
     }
 
-    // The kiosk browser saves the label in C:\Etiquetas, where the print script picks it up.
+    // The kiosk browser saves the label in C:\Etiketak, where the print script picks it up.
     if (kiosk.dataset.labelUrl) {
         window.location.assign(kiosk.dataset.labelUrl);
     }

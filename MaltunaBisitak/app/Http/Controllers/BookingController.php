@@ -30,7 +30,7 @@ class BookingController extends Controller
 
     public function create(): View
     {
-        $from = CarbonImmutable::tomorrow();
+        $from = CarbonImmutable::today();
         $until = CarbonImmutable::today()->addMonthsNoOverflow(self::MONTHS_AHEAD)->endOfMonth();
 
         $availableDates = AvailableDate::whereBetween('date', [$from, $until])->orderBy('date')->get();
