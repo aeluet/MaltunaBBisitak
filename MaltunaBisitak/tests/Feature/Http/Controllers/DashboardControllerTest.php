@@ -19,6 +19,12 @@ describe('reception panel', function () {
         $this->receptionist = User::factory()->harrera()->create();
     });
 
+    it('links to the kiosk start screen', function () {
+        $this->actingAs($this->receptionist)
+            ->get(route('dashboard'))
+            ->assertSee(route('kiosk.home', ['locale' => 'eu']));
+    });
+
     it('counts the people inside including unnamed group members', function () {
         Visit::factory()->approved()->today()->create()
             ->visitors()->attach(Visitor::factory()->create(), ['checked_in_at' => now()]);

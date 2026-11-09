@@ -18,6 +18,10 @@ it('is only available from the school network', function () {
         ->assertForbidden();
 });
 
+it('sends the short addresses to the Basque start screen', function (string $address) {
+    $this->get($address)->assertRedirect(route('kiosk.home', ['locale' => 'eu']));
+})->with(['/pedestala', '/pedestal']);
+
 describe('home', function () {
     it('offers today\'s meetings and approved group visits', function () {
         Meeting::factory()->create(['title' => 'Gaurko bilera', 'date' => '2026-11-10']);

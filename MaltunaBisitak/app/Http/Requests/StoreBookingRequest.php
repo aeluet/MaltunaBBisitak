@@ -32,7 +32,7 @@ class StoreBookingRequest extends FormRequest
             'types' => ['required_without:other_type', 'array'],
             'types.*' => ['integer', Rule::exists('visit_types', 'id')->where('is_active', true)],
             'other_type' => ['nullable', 'string', 'max:255'],
-            'visit_date' => ['bail', 'required', 'date_format:Y-m-d', 'after:today', $this->ensureDateIsBookable(...)],
+            'visit_date' => ['bail', 'required', 'date_format:Y-m-d', 'after_or_equal:today', $this->ensureDateIsBookable(...)],
             'origin' => ['required', 'string', 'max:255'],
             'is_group' => ['required', 'boolean'],
             'group_size' => ['exclude_unless:is_group,1', 'required', 'integer', 'min:2', 'max:500'],
@@ -57,7 +57,7 @@ class StoreBookingRequest extends FormRequest
             'types.required_without' => __('public.validation.type_required'),
             'visit_date.required' => __('public.validation.date_required'),
             'visit_date.date_format' => __('public.validation.date_unavailable'),
-            'visit_date.after' => __('public.validation.date_unavailable'),
+            'visit_date.after_or_equal' => __('public.validation.date_unavailable'),
             'visitors.0.email.required' => __('public.validation.contact_email_required'),
             'privacy.accepted' => __('public.validation.privacy'),
         ];

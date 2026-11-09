@@ -1,7 +1,10 @@
 <x-layouts.app title="Harrera">
     <div class="mb-6 flex flex-wrap items-center justify-between gap-3">
         <p class="text-sm text-slate-500">{{ now()->format('Y/m/d') }}, {{ now()->isoFormat('dddd') }}</p>
-        <x-button :href="route('walk-ins.create')">+ Bisitari baten sarrera</x-button>
+        <div class="flex flex-wrap gap-3">
+            <x-button :href="route('kiosk.home', ['locale' => 'eu'])" variant="secondary" target="_blank">Pedestala ireki</x-button>
+            <x-button :href="route('walk-ins.create')">+ Bisitari baten sarrera</x-button>
+        </div>
     </div>
 
     <div class="mb-8 grid grid-cols-2 gap-4 lg:grid-cols-4">

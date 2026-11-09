@@ -241,14 +241,14 @@ Kontuan izateko:
 ```mermaid
 flowchart LR
     irakurgailua["USB QR irakurgailua<br/>(teklatu gisa)"] --> pedestala["Pedestala<br/>/eu/pedestala"]
-    pedestala -->|"etiketa .txt fitxategia"| karpeta["C:\Etiquetas karpeta"]
+    pedestala -->|"etiketa .txt fitxategia"| karpeta["C:\Etiketak karpeta"]
     karpeta --> script["print_label_html_pdf.ps1"]
     script -->|"PDF (Edge) + SumatraPDF"| inprimagailua["Brother QL-700"]
 ```
 
 1. Ordenagailua edo tableta, USB QR irakurgailua (teklatu gisa, Enter-ekin amaituta) eta Brother QL-700 inprimagailua (62 × 90 mm-ko etiketak).
 2. Nabigatzailea kiosko moduan, `https://<domeinua>/eu/pedestala` helbidean.
-3. Nabigatzailearen deskargak `C:\Etiquetas` karpetara, "galdetu non gorde" aukera desaktibatuta.
+3. Nabigatzailearen deskargak `C:\Etiketak` karpetara, "galdetu non gorde" aukera desaktibatuta.
 4. `print_label_html_pdf.ps1` script-a martxan, jatorrizko proiektuaren `ScriptPrinter/` karpetakoa. Etiketa bakoitza JSON bat da (`Izena`, `Abizena`, `Nondik`), ASCII hutsean.
 
 Pedestala 90 segundoz inork erabiltzen ez badu, hasierara itzultzen da, eta hasierako pantaila 10 minuturo berritzen da.
