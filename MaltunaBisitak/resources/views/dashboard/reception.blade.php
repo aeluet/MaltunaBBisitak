@@ -10,23 +10,23 @@
     <div class="mb-8 grid grid-cols-2 gap-4 lg:grid-cols-4">
         <x-card class="p-5">
             <p class="text-sm text-slate-500">Pertsonak ikastetxean</p>
-            <p class="mt-1 text-3xl font-semibold text-slate-900">{{ $peopleInsideCount }}</p>
+            <p class="mt-1 text-3xl font-bold text-brand-800">{{ $peopleInsideCount }}</p>
         </x-card>
 
         <x-card class="p-5">
             <p class="text-sm text-slate-500">Sarrerak gaur</p>
-            <p class="mt-1 text-3xl font-semibold text-slate-900">{{ $checkInCounts['today'] }}</p>
+            <p class="mt-1 text-3xl font-bold text-brand-800">{{ $checkInCounts['today'] }}</p>
             <p class="mt-1 text-xs text-slate-500">Astean {{ $checkInCounts['week'] }} · Hilean {{ $checkInCounts['month'] }}</p>
         </x-card>
 
         <a href="{{ route('visits.index', ['egoera' => 'zain']) }}" class="block rounded-xl bg-white p-5 shadow-sm ring-1 ring-slate-200 hover:ring-brand-600">
             <p class="text-sm text-slate-500">Onartzeko zain</p>
-            <p class="mt-1 text-3xl font-semibold text-slate-900">{{ $pendingVisitsCount }}</p>
+            <p class="mt-1 text-3xl font-bold text-brand-800">{{ $pendingVisitsCount }}</p>
         </a>
 
         <a href="{{ route('contractor-shifts.index') }}" class="block rounded-xl bg-white p-5 shadow-sm ring-1 ring-slate-200 hover:ring-brand-600">
             <p class="text-sm text-slate-500">Kanpo langileak lanean</p>
-            <p class="mt-1 text-3xl font-semibold text-slate-900">{{ $activeContractorsCount }}</p>
+            <p class="mt-1 text-3xl font-bold text-brand-800">{{ $activeContractorsCount }}</p>
         </a>
     </div>
 

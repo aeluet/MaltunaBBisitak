@@ -7,7 +7,7 @@
     @endif
 
     <section class="rounded-2xl bg-white p-10 text-center shadow-sm ring-1 ring-slate-200">
-        <h1 class="text-4xl font-semibold text-slate-900">{{ __('kiosk.title') }}</h1>
+        <h1 class="text-4xl font-bold text-brand-800">{{ __('kiosk.title') }}</h1>
         <p class="mt-4 text-xl text-slate-600">{{ __('kiosk.scan.help') }}</p>
 
         <form method="POST" action="{{ route('kiosk.check-in') }}" class="mx-auto mt-8 flex max-w-lg gap-3">

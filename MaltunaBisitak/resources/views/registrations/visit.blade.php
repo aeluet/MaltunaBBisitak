@@ -1,5 +1,5 @@
 <x-layouts.public :title="__('kiosk.mobile.visit_heading')">
-    <h1 class="text-3xl font-semibold text-slate-900">{{ __('kiosk.mobile.visit_heading') }}</h1>
+    <h1 class="text-3xl font-bold text-brand-800">{{ __('kiosk.mobile.visit_heading') }}</h1>
 
     <x-card class="mt-4 p-5">
         <p class="text-lg font-semibold">{{ $visit->origin }}</p>

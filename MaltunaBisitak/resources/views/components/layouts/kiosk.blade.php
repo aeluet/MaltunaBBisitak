@@ -7,14 +7,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ $title ? "$title · " : '' }}{{ __('public.school') }}</title>
+    <link rel="icon" type="image/svg+xml" href="{{ asset('images/favicon.svg') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="min-h-screen bg-slate-100 font-sans text-slate-800 antialiased">
+<body class="min-h-screen bg-slate-50 font-sans text-slate-800 antialiased">
     <div class="flex min-h-screen flex-col" data-kiosk data-home-url="{{ route('kiosk.home') }}" data-idle-seconds="{{ $idleSeconds }}"
          @if ($labelUrl) data-label-url="{{ $labelUrl }}" @endif>
-        <header class="bg-brand-800 text-white">
+        <header class="border-b border-slate-200 bg-white shadow-sm">
             <div class="mx-auto flex max-w-5xl items-center justify-between gap-4 px-6 py-5">
-                <a href="{{ route('kiosk.home') }}" class="text-2xl font-semibold">{{ __('public.school') }}</a>
+                <a href="{{ route('kiosk.home') }}" class="shrink-0">
+                    <img src="{{ asset('images/miguel-altuna-logoa.svg') }}" alt="{{ __('public.school') }}" class="h-16 w-auto">
+                </a>
 
                 <nav aria-label="{{ __('public.language') }}" class="flex gap-2">
                     @foreach (['eu' => 'Euskara', 'es' => 'Castellano', 'en' => 'English'] as $locale => $languageName)
@@ -22,8 +25,8 @@
                            lang="{{ $locale }}" @if (app()->isLocale($locale)) aria-current="true" @endif
                            @class([
                                'rounded-lg px-4 py-2 text-lg font-medium',
-                               'bg-white text-brand-800' => app()->isLocale($locale),
-                               'hover:bg-white/10' => ! app()->isLocale($locale),
+                               'btn-brand' => app()->isLocale($locale),
+                               'text-brand-800 hover:bg-brand-50' => ! app()->isLocale($locale),
                            ])>{{ $languageName }}</a>
                     @endforeach
                 </nav>
@@ -33,6 +36,8 @@
         <main class="mx-auto w-full max-w-5xl flex-1 px-6 py-10">
             {{ $slot }}
         </main>
+
+        <footer class="bg-brand-gradient h-3" aria-hidden="true"></footer>
     </div>
 </body>
 </html>

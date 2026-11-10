@@ -1,7 +1,7 @@
 {{-- Shared by meetings and groups: fill in the form here or continue on the phone through the QR. --}}
 <a href="{{ route('kiosk.home') }}" class="text-lg text-brand-700 hover:underline">&larr; {{ __('kiosk.register.back') }}</a>
 
-<h1 class="mt-4 text-4xl font-semibold text-slate-900">{{ $heading }}</h1>
+<h1 class="mt-4 text-4xl font-bold text-brand-800">{{ $heading }}</h1>
 <p class="mt-2 text-xl text-slate-600">{{ $subheading }}</p>
 
 <div class="mt-8 grid gap-8 md:grid-cols-3">

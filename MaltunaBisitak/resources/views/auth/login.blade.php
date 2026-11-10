@@ -1,5 +1,5 @@
 <x-layouts.guest title="Saioa hasi">
-    <h2 class="mb-6 text-lg font-semibold text-slate-900">Saioa hasi</h2>
+    <h2 class="mb-6 text-lg font-semibold text-brand-800">Saioa hasi</h2>
 
     <form method="POST" action="{{ route('login') }}" class="space-y-5">
         @csrf
@@ -28,7 +28,7 @@
         </label>
 
         <button type="submit"
-                class="w-full rounded-md bg-brand-600 px-4 py-2.5 font-medium text-white hover:bg-brand-700 focus:ring-2 focus:ring-brand-100 focus:outline-none">
+                class="btn-brand w-full rounded-lg px-4 py-2.5 font-medium focus:ring-2 focus:ring-brand-100 focus:outline-none">
             Sartu
         </button>
     </form>

@@ -10,12 +10,15 @@
     @foreach (SetPublicLocale::LOCALES as $locale)
         <link rel="alternate" hreflang="{{ $locale }}" href="{{ route(Route::currentRouteName(), [...request()->route()->parameters(), 'locale' => $locale]) }}">
     @endforeach
+    <link rel="icon" type="image/svg+xml" href="{{ asset('images/favicon.svg') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="min-h-screen bg-slate-100 font-sans text-slate-800 antialiased">
-    <header class="bg-brand-800 text-white">
+<body class="flex min-h-screen flex-col bg-slate-50 font-sans text-slate-800 antialiased">
+    <header class="border-b border-slate-200 bg-white shadow-sm">
         <div class="mx-auto flex max-w-3xl items-center justify-between gap-4 px-4 py-4">
-            <a href="{{ route('bookings.create') }}" class="text-lg font-semibold">{{ __('public.school') }}</a>
+            <a href="{{ route('bookings.create') }}" class="shrink-0">
+                <img src="{{ asset('images/miguel-altuna-logoa.svg') }}" alt="{{ __('public.school') }}" class="h-12 w-auto">
+            </a>
 
             <nav aria-label="{{ __('public.language') }}" class="flex gap-1 text-sm">
                 @foreach (['eu' => 'Euskara', 'es' => 'Castellano', 'en' => 'English'] as $locale => $languageName)
@@ -23,21 +26,24 @@
                        lang="{{ $locale }}" hreflang="{{ $locale }}" title="{{ $languageName }}"
                        @if (app()->isLocale($locale)) aria-current="true" @endif
                        @class([
-                           'rounded px-2 py-1 font-medium uppercase',
-                           'bg-white text-brand-800' => app()->isLocale($locale),
-                           'hover:bg-white/10' => ! app()->isLocale($locale),
+                           'rounded-lg px-2.5 py-1 font-medium uppercase',
+                           'btn-brand' => app()->isLocale($locale),
+                           'text-brand-800 hover:bg-brand-50' => ! app()->isLocale($locale),
                        ])>{{ $locale }}</a>
                 @endforeach
             </nav>
         </div>
     </header>
 
-    <main class="mx-auto max-w-3xl px-4 py-8">
+    <main class="mx-auto w-full max-w-3xl flex-1 px-4 py-8">
         {{ $slot }}
     </main>
 
-    <footer class="mx-auto max-w-3xl px-4 pb-8 text-center text-xs text-slate-500">
-        &copy; {{ now()->year }} {{ __('public.school') }}
+    <footer class="bg-brand-gradient text-sm text-white/80">
+        <div class="mx-auto flex max-w-3xl flex-wrap items-center justify-between gap-2 px-4 py-6">
+            <span>&copy; {{ now()->year }} {{ __('public.school') }}</span>
+            <a href="https://maltuna.eus" class="font-medium text-white hover:underline">maltuna.eus</a>
+        </div>
     </footer>
 </body>
 </html>
