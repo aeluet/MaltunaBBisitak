@@ -4,6 +4,7 @@ return [
 
     'school' => 'Miguel Altuna',
     'language' => 'Hizkuntza',
+    'credits' => 'Aplikazio hau WAGeko ikasle eta irakasleen arteko elkarlanean garatu da.',
 
     'title' => 'Eskatu bisita bat',
     'intro' => 'Miguel Altuna ezagutu nahi duzu? Aukeratu eguna, esaguzu nor zareten eta bidali eskaera. Berrikusi ondoren, emailez jasoko duzu erantzuna.',

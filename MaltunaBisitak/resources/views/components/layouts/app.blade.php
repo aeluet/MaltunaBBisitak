@@ -76,6 +76,7 @@
         <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-2 px-4 py-4">
             <span>&copy; {{ now()->year }} Miguel Altuna Lanbide Heziketa</span>
             <a href="https://maltuna.eus" class="font-medium text-white hover:underline">maltuna.eus</a>
+            <p class="w-full border-t border-white/15 pt-2 text-xs text-white/70">Aplikazio hau WAGeko ikasle eta irakasleen arteko elkarlanean garatu da.</p>
         </div>
     </footer>
 </body>

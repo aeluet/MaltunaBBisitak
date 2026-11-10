@@ -4,6 +4,7 @@ return [
 
     'school' => 'Miguel Altuna',
     'language' => 'Language',
+    'credits' => 'This application was developed collaboratively by DAW (Web Application Development) students and teachers.',
 
     'title' => 'Request a visit',
     'intro' => 'Would you like to visit Miguel Altuna? Choose a day, tell us who you are and send your request. Once we have reviewed it, we will reply by email.',

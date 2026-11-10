@@ -43,6 +43,7 @@
         <div class="mx-auto flex max-w-3xl flex-wrap items-center justify-between gap-2 px-4 py-6">
             <span>&copy; {{ now()->year }} {{ __('public.school') }}</span>
             <a href="https://maltuna.eus" class="font-medium text-white hover:underline">maltuna.eus</a>
+            <p class="w-full border-t border-white/15 pt-3 text-xs text-white/70">{{ __('public.credits') }}</p>
         </div>
     </footer>
 </body>

@@ -4,6 +4,7 @@ return [
 
     'school' => 'Miguel Altuna',
     'language' => 'Idioma',
+    'credits' => 'Esta aplicación se ha desarrollado en colaboración entre alumnado y profesorado de DAW.',
 
     'title' => 'Solicitar una visita',
     'intro' => '¿Quieres conocer Miguel Altuna? Elige el día, cuéntanos quiénes sois y envía la solicitud. Tras revisarla, recibirás la respuesta por email.',
