@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-#[Fillable(['contractor_id', 'checked_in_at', 'checked_out_at', 'needs_key', 'key_returned', 'signature_path'])]
+#[Fillable(['contractor_id', 'checked_in_at', 'checked_out_at', 'needs_key', 'key_returned', 'signature_path', 'documents_accepted_at'])]
 class ContractorShift extends Model
 {
     /** @use HasFactory<ContractorShiftFactory> */
@@ -23,6 +23,7 @@ class ContractorShift extends Model
             'checked_out_at' => 'datetime',
             'needs_key' => 'boolean',
             'key_returned' => 'boolean',
+            'documents_accepted_at' => 'datetime',
         ];
     }
 

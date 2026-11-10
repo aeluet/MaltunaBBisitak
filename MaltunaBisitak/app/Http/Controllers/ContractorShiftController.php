@@ -33,6 +33,7 @@ class ContractorShiftController extends Controller
         return view('contractor-shifts.create', [
             'contractor' => Contractor::find($request->query('langilea')) ?? new Contractor,
             'now' => now()->format('Y-m-d\TH:i'),
+            'documents' => config('bisitak.contractor_documents'),
         ]);
     }
 
@@ -50,6 +51,7 @@ class ContractorShiftController extends Controller
             'checked_in_at' => $request->validated('checked_in_at'),
             'needs_key' => $request->boolean('needs_key'),
             'signature_path' => $signaturePath,
+            'documents_accepted_at' => now(),
         ]);
         $shift->contractor()->associate($contractor);
         $shift->registeredBy()->associate($request->user());

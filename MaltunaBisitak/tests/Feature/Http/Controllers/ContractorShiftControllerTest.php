@@ -20,6 +20,7 @@ beforeEach(function () {
         'company' => 'Elektra SL',
         'checked_in_at' => '2026-11-10T08:15',
         'needs_key' => '1',
+        'documents_accepted' => '1',
         'signature' => 'data:image/png;base64,'.$onePixelPng,
     ];
 });
@@ -53,6 +54,19 @@ describe('create', function () {
             ->assertSee('value="Iñaki"', escape: false)
             ->assertSee('value="611222333"', escape: false);
     });
+
+    it('links the safety documents the contractor must accept before signing', function () {
+        $response = $this->actingAs($this->receptionist)
+            ->get(route('contractor-shifts.create'))
+            ->assertOk()
+            ->assertSee('name="documents_accepted"', escape: false)
+            ->assertSee('data-signature-requires="documents-accepted"', escape: false);
+
+        foreach (config('bisitak.contractor_documents') as $document) {
+            $response->assertSee($document['title'])->assertSee(asset($document['path']));
+            expect(public_path($document['path']))->toBeFile();
+        }
+    });
 });
 
 describe('store', function () {
@@ -67,6 +81,7 @@ describe('store', function () {
             ->and($shift->checked_in_at->format('Y-m-d H:i'))->toBe('2026-11-10 08:15')
             ->and($shift->needs_key)->toBeTrue()
             ->and($shift->registered_by)->toBe($this->receptionist->id)
+            ->and($shift->documents_accepted_at->toDateTimeString())->toBe('2026-11-10 10:00:00')
             ->and(Storage::disk('local')->get($shift->signature_path))->toBe($this->signaturePng);
     });
 
@@ -96,6 +111,8 @@ describe('store', function () {
     })->with([
         'a signature that is not a png' => [['signature' => 'data:image/png;base64,'.base64_encode('<svg/>')], 'signature'],
         'a missing signature' => [['signature' => ''], 'signature'],
+        'documents not accepted' => [['documents_accepted' => '0'], 'documents_accepted'],
+        'documents acceptance missing' => [['documents_accepted' => null], 'documents_accepted'],
         'a check-in time in the future' => [['checked_in_at' => '2026-11-10T11:00'], 'checked_in_at'],
         'a phone with letters' => [['phone' => '611abc333'], 'phone'],
         'a phone that is too short' => [['phone' => '61122'], 'phone'],

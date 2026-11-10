@@ -29,4 +29,27 @@ return [
 
     'notification_email' => env('BISITAK_NOTIFICATION_EMAIL'),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Kanpo langileentzako dokumentuak
+    |--------------------------------------------------------------------------
+    |
+    | Kanpo langileak irakurri eta onartu behar dituen dokumentuak, sinatu
+    | aurretik. Bideak public/ karpetarekiko dira.
+    |
+    */
+
+    'contractor_documents' => [
+        [
+            'title' => 'Kontratatutako enpresentzako segurtasun neurriak',
+            'description' => 'Sartu-irtenak, seinaleztapena, altuerako lanak, makineria eta arrisku orokorrak.',
+            'path' => 'dokumentuak/kontratatutako-enpresentzako-segurtasun-neurriak.pdf',
+        ],
+        [
+            'title' => 'Larrialdi eta ebakuazio argibideak',
+            'description' => 'Larrialdi baten aurrean nola jokatu, nola ebakuatu eta elkarguneak.',
+            'path' => 'dokumentuak/larrialdi-eta-ebakuazio-argibideak.pdf',
+        ],
+    ],
+
 ];
