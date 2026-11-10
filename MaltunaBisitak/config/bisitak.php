@@ -31,6 +31,18 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Datu-babesari buruzko informazioa
+    |--------------------------------------------------------------------------
+    |
+    | Pedestaleko eta mugikorreko izen-ematean erakusten den esteka. Hutsik
+    | badago, jatorrizko aplikazioak erabiltzen zuen dokumentua erakusten da.
+    |
+    */
+
+    'privacy_url' => env('BISITAK_PRIVACY_URL') ?: 'https://docs.google.com/document/d/1CaLSd6ZIzTBqidqQzDJFsI8uURTQ8GOsx-DD6XEIbHE/edit?tab=t.0',
+
+    /*
+    |--------------------------------------------------------------------------
     | Kanpo langileentzako dokumentuak
     |--------------------------------------------------------------------------
     |

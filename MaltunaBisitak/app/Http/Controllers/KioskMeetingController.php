@@ -13,6 +13,16 @@ use Illuminate\View\View;
  */
 class KioskMeetingController extends Controller
 {
+    /**
+     * Today's meetings, the "Bilera" button of the start screen.
+     */
+    public function index(): View
+    {
+        return view('kiosk.meetings', [
+            'meetings' => Meeting::whereDate('date', today())->orderBy('starts_at')->get(),
+        ]);
+    }
+
     public function show(Meeting $meeting): View
     {
         abort_unless($meeting->date->isToday(), 404);

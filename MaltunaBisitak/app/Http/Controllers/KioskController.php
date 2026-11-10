@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Enums\VisitStatus;
 use App\Models\Meeting;
-use App\Models\Visit;
 use App\Models\VisitAttendance;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -18,12 +17,8 @@ class KioskController extends Controller
     public function home(): View
     {
         return view('kiosk.home', [
-            'meetings' => Meeting::whereDate('date', today())->orderBy('starts_at')->get(),
-            'groups' => Visit::where('status', VisitStatus::Approved)
-                ->where('is_group', true)
-                ->whereDate('visit_date', today())
-                ->orderBy('origin')
-                ->get(),
+            'meetingsCount' => Meeting::whereDate('date', today())->count(),
+            'groupsCount' => KioskGroupController::todaysGroups()->count(),
         ]);
     }
 
