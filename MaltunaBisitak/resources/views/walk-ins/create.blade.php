@@ -59,7 +59,8 @@
                         <x-form.input name="last_name" label="Abizena(k)" required />
                         <x-form.input name="document_number" label="NAN / AIZ / Pasaportea" />
                         <x-form.input name="origin" label="Jatorria (enpresa, ikastetxea…)" />
-                        <x-form.input name="phone" label="Telefonoa" type="tel" />
+                        <x-form.input name="phone" label="Telefonoa" type="tel"
+                                      pattern="[0-9 .\(\)\-\+]{9,20}" title="Telefono zenbakia: 9-15 digitu, adibidez 611 222 333 edo +34 611 222 333" />
                         <x-form.input name="email" label="Posta elektronikoa" type="email" />
                     </div>
                 @endif

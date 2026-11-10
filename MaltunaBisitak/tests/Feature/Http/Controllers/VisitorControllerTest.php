@@ -69,6 +69,18 @@ describe('store', function () {
             ])
             ->assertSessionHasErrors('country');
     });
+
+    it('rejects a badly formatted phone number', function () {
+        $this->actingAs($this->receptionist)
+            ->post(route('visitors.store'), [
+                'first_name' => 'Ane',
+                'last_name' => 'Zubiaurre',
+                'phone' => 'deitu goizean',
+            ])
+            ->assertSessionHasErrors('phone');
+
+        expect(Visitor::count())->toBe(0);
+    });
 });
 
 describe('show', function () {

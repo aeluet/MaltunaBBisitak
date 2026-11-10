@@ -1,12 +1,16 @@
 /**
  * Minimal signature pad: draws on a <canvas> and keeps a PNG data URL in a hidden input.
  *
- * <div data-signature-pad>
+ * <div data-signature-pad data-signature-requires="checkbox-id">
  *     <canvas></canvas>
  *     <input type="hidden" name="signature">
  *     <button type="button" data-signature-clear>Garbitu</button>
+ *     <p data-signature-locked hidden>…</p>
  *     <p data-signature-error hidden>…</p>
  * </div>
+ *
+ * With data-signature-requires, the pad stays locked until that checkbox is ticked
+ * (for example, accepting the safety documents), and unticking it clears the signature.
  */
 export function initSignaturePads(root = document) {
     root.querySelectorAll('[data-signature-pad]').forEach((container) => {
@@ -14,7 +18,19 @@ export function initSignaturePads(root = document) {
         const input = container.querySelector('input[type="hidden"]');
         const error = container.querySelector('[data-signature-error]');
         const context = canvas.getContext('2d');
+        const gate = container.dataset.signatureRequires
+            ? document.getElementById(container.dataset.signatureRequires)
+            : null;
+        const lockedMessage = container.querySelector('[data-signature-locked]');
+        const clearButton = container.querySelector('[data-signature-clear]');
         let isDrawing = false;
+
+        const isLocked = () => gate !== null && !gate.checked;
+
+        const clear = () => {
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            input.value = '';
+        };
 
         const resize = () => {
             const ratio = window.devicePixelRatio || 1;
@@ -37,6 +53,10 @@ export function initSignaturePads(root = document) {
         };
 
         canvas.addEventListener('pointerdown', (event) => {
+            if (isLocked()) {
+                return;
+            }
+
             const { x, y } = pointFrom(event);
 
             isDrawing = true;
@@ -71,12 +91,34 @@ export function initSignaturePads(root = document) {
         canvas.addEventListener('pointerup', finishStroke);
         canvas.addEventListener('pointercancel', finishStroke);
 
-        container.querySelector('[data-signature-clear]').addEventListener('click', () => {
-            context.clearRect(0, 0, canvas.width, canvas.height);
-            input.value = '';
-        });
+        clearButton.addEventListener('click', clear);
+
+        const updateLock = () => {
+            const locked = isLocked();
+
+            container.style.opacity = locked ? '0.5' : '';
+            canvas.style.cursor = locked ? 'not-allowed' : 'crosshair';
+            canvas.setAttribute('aria-disabled', String(locked));
+            clearButton.disabled = locked;
+            lockedMessage && (lockedMessage.hidden = !locked);
+
+            if (locked) {
+                clear();
+            }
+        };
+
+        gate?.addEventListener('change', updateLock);
 
         container.closest('form')?.addEventListener('submit', (event) => {
+            if (isLocked()) {
+                event.preventDefault();
+                lockedMessage && (lockedMessage.hidden = false);
+                gate.focus();
+                gate.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+                return;
+            }
+
             if (!input.value) {
                 event.preventDefault();
                 error.hidden = false;
@@ -92,5 +134,6 @@ export function initSignaturePads(root = document) {
         });
 
         resize();
+        updateLock();
     });
 }

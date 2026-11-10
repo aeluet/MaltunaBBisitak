@@ -85,6 +85,18 @@ describe('store', function () {
         expect(Visit::count())->toBe(0);
     });
 
+    it('rejects a new visitor with a badly formatted phone number', function () {
+        $this->actingAs($this->receptionist)
+            ->post(route('walk-ins.store'), [
+                'first_name' => 'Miren',
+                'last_name' => 'Etxeberria',
+                'phone' => '12-34',
+            ])
+            ->assertSessionHasErrors('phone');
+
+        expect(Visit::count())->toBe(0);
+    });
+
     it('sends reception to the existing visitor when the document number is known', function () {
         Visitor::factory()->create(['document_number' => '12345678Z']);
 

@@ -59,10 +59,14 @@ Route::prefix('{locale}')
             Route::get('/', [KioskController::class, 'home'])->name('home');
             Route::post('sarrera', [KioskController::class, 'checkIn'])->name('check-in');
             Route::get('eginda', [KioskController::class, 'done'])->name('done');
+            Route::get('bilerak', [KioskMeetingController::class, 'index'])->name('meetings.index');
             Route::get('bilerak/{meeting:uuid}', [KioskMeetingController::class, 'show'])->name('meetings.show');
             Route::post('bilerak/{meeting:uuid}', [KioskMeetingController::class, 'store'])->name('meetings.store');
+            Route::get('taldeak', [KioskGroupController::class, 'index'])->name('groups.index');
+            Route::post('taldeak', [KioskGroupController::class, 'open'])->name('groups.open');
             Route::get('taldeak/{visit:uuid}', [KioskGroupController::class, 'show'])->name('groups.show');
             Route::post('taldeak/{visit:uuid}', [KioskGroupController::class, 'store'])->name('groups.store');
+            Route::post('taldeak/{visit:uuid}/inprimatu', [KioskGroupController::class, 'printAll'])->name('groups.print');
         });
     });
 

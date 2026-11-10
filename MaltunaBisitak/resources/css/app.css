@@ -3,13 +3,40 @@
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 
+/* Miguel Altuna LHko irudi korporatiboa (maltuna.eus) */
 @theme {
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
 
-    --color-brand-50: #eef6fb;
-    --color-brand-100: #d5e9f5;
-    --color-brand-600: #1d6fa5;
-    --color-brand-700: #175a87;
-    --color-brand-800: #134a6f;
+    --color-brand-50: #eef7fc;
+    --color-brand-100: #d4ecf9;
+    --color-brand-200: #a9daf3;
+    --color-brand-300: #74c6ec;
+    --color-brand-400: #43b7e7; /* zian argia */
+    --color-brand-500: #3fb4e5; /* logoaren ziana */
+    --color-brand-600: #2b7bb9; /* azentua: estekak, botoiak */
+    --color-brand-700: #2e6dc4; /* gradientearen urdina */
+    --color-brand-800: #193b6a; /* urdin iluna: izenburuak, menua */
+    --color-brand-900: #122b4e;
+}
+
+@layer components {
+    /* maltuna.eus-eko botoi nagusia: zian → urdin gradientea */
+    .btn-brand {
+        background-color: var(--color-brand-600);
+        background-image: linear-gradient(0deg, var(--color-brand-400) 0%, var(--color-brand-700) 100%);
+        color: #fff;
+        transition: filter 150ms ease, box-shadow 150ms ease;
+    }
+
+    .btn-brand:hover {
+        filter: brightness(1.08);
+        box-shadow: 0 4px 14px -4px rgb(46 109 196 / 0.55);
+    }
+
+    /* Oineko banda: urdin iluna → urdina */
+    .bg-brand-gradient {
+        background-color: var(--color-brand-800);
+        background-image: linear-gradient(0deg, var(--color-brand-800) 0%, var(--color-brand-700) 100%);
+    }
 }

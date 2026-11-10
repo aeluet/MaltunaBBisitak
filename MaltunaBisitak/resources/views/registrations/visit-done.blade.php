@@ -1,6 +1,6 @@
 <x-layouts.public :title="__('kiosk.mobile.thanks', ['name' => $name])">
     <x-card class="p-8 text-center">
-        <h1 class="text-2xl font-semibold text-slate-900">{{ __('kiosk.mobile.thanks', ['name' => $name]) }}</h1>
+        <h1 class="text-2xl font-bold text-brand-800">{{ __('kiosk.mobile.thanks', ['name' => $name]) }}</h1>
         <p class="mt-3 text-slate-600">{{ __('kiosk.mobile.visit_done') }}</p>
 
         <x-qr-code :data="$code" :size="240" class="mx-auto mt-6" />

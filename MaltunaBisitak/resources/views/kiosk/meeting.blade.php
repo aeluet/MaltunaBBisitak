@@ -5,5 +5,6 @@
         'action' => route('kiosk.meetings.store', $meeting),
         'origin' => null,
         'phoneUrl' => route('registrations.meetings.create', $meeting),
+        'backUrl' => route('kiosk.meetings.index'),
     ])
 </x-layouts.kiosk>

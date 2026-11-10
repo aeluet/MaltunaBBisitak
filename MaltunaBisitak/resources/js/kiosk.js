@@ -24,9 +24,15 @@ export function initKiosk(root = document) {
         scannerInput.focus();
     }
 
-    // The kiosk browser saves the label in C:\Etiketak, where the print script picks it up.
-    if (kiosk.dataset.labelUrl) {
-        window.location.assign(kiosk.dataset.labelUrl);
+    // The kiosk browser saves each label in C:\Etiketak, where the print script picks it up.
+    const labelUrls = kiosk.dataset.labelUrls ? JSON.parse(kiosk.dataset.labelUrls) : [];
+
+    if (labelUrls.length > 0) {
+        downloadLabels(labelUrls);
+
+        kiosk.querySelectorAll('[data-kiosk-print-labels]').forEach((button) => {
+            button.addEventListener('click', () => downloadLabels(labelUrls));
+        });
     }
 
     const idleSeconds = Number(kiosk.dataset.idleSeconds);
@@ -42,4 +48,29 @@ export function initKiosk(root = document) {
         ['pointerdown', 'keydown', 'input'].forEach((type) => document.addEventListener(type, restartTimer));
         restartTimer();
     }
+}
+
+/**
+ * One label navigates to its download, as before. Several are saved one second apart: browsers drop
+ * downloads that start at the same time, and the print script handles the files one by one.
+ */
+function downloadLabels(urls) {
+    if (urls.length === 1) {
+        window.location.assign(urls[0]);
+
+        return;
+    }
+
+    urls.forEach((url, index) => {
+        setTimeout(() => {
+            const link = document.createElement('a');
+
+            link.href = url;
+            link.download = '';
+            link.hidden = true;
+            document.body.append(link);
+            link.click();
+            link.remove();
+        }, index * 1000);
+    });
 }

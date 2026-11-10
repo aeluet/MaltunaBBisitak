@@ -23,20 +23,18 @@ it('sends the short addresses to the Basque start screen', function (string $add
 })->with(['/pedestala', '/pedestal']);
 
 describe('home', function () {
-    it('offers today\'s meetings and approved group visits', function () {
-        Meeting::factory()->create(['title' => 'Gaurko bilera', 'date' => '2026-11-10']);
-        Meeting::factory()->create(['title' => 'Biharko bilera', 'date' => '2026-11-11']);
+    it('offers the meeting and visit buttons with how many there are today', function () {
+        Meeting::factory()->count(2)->create(['date' => '2026-11-10']);
+        Meeting::factory()->create(['date' => '2026-11-11']);
         Visit::factory()->group(20)->approved()->today()->create(['origin' => 'Gaurko taldea']);
         Visit::factory()->group(20)->today()->create(['origin' => 'Zain dagoen taldea']);
-        Visit::factory()->approved()->today()->create(['origin' => 'Bakarkako bisita']);
 
         $this->get(route('kiosk.home', ['locale' => 'eu']))
             ->assertOk()
-            ->assertSee('Gaurko bilera')
-            ->assertDontSee('Biharko bilera')
-            ->assertSee('Gaurko taldea')
-            ->assertDontSee('Zain dagoen taldea')
-            ->assertDontSee('Bakarkako bisita');
+            ->assertSee(route('kiosk.meetings.index', ['locale' => 'eu']))
+            ->assertSee(route('kiosk.groups.index', ['locale' => 'eu']))
+            ->assertSeeInOrder(['Bilera', 'Gaur: 2', 'Bisita', 'Gaur: 1'])
+            ->assertSee('Aplikazio hau WAGeko ikasle eta irakasleen arteko elkarlanean garatu da.');
     });
 });
 

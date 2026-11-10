@@ -2,8 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Visitor;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 /**
  * Someone signing up for a visit or a meeting at the kiosk or from their phone (PW007, BP002).
@@ -30,6 +32,7 @@ class RegisterAttendeeRequest extends FormRequest
             'last_name' => ['required', 'string', 'max:255'],
             'origin' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255'],
+            'country' => ['nullable', Rule::in(array_keys(Visitor::countryOptions()))],
             'website' => ['prohibited'],
         ];
     }

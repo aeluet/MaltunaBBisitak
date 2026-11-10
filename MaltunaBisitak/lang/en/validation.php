@@ -5,6 +5,8 @@
  */
 return [
 
+    'phone' => 'The :attribute field must be a valid phone number (9-15 digits, e.g. 611 222 333 or +34 611 222 333).',
+
     'attributes' => [
         'first_name' => 'first name',
         'last_name' => 'last name',

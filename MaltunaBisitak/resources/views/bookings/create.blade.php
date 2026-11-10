@@ -1,5 +1,5 @@
 <x-layouts.public :title="__('public.title')">
-    <h1 class="text-3xl font-semibold text-slate-900">{{ __('public.title') }}</h1>
+    <h1 class="text-3xl font-bold text-brand-800">{{ __('public.title') }}</h1>
     <p class="mt-3 text-slate-600">{{ __('public.intro') }}</p>
 
     @if ($calendar->isEmpty())

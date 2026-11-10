@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Models\Visitor;
+use App\Rules\PhoneNumber;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -43,7 +44,7 @@ class VisitorRequest extends FormRequest
             'document_number' => ['nullable', 'string', 'max:20', Rule::unique('visitors')->ignore($this->route('visitor'))],
             'origin' => ['nullable', 'string', 'max:255'],
             'country' => ['nullable', Rule::in(array_keys(Visitor::countryOptions()))],
-            'phone' => ['nullable', 'string', 'max:20'],
+            'phone' => ['nullable', 'string', 'max:20', new PhoneNumber],
             'notes' => ['nullable', 'string', 'max:2000'],
         ];
     }

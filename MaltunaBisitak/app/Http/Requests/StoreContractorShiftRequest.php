@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\PhoneNumber;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
@@ -30,10 +31,11 @@ class StoreContractorShiftRequest extends FormRequest
         return [
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
-            'phone' => ['required', 'string', 'max:20'],
+            'phone' => ['required', 'string', 'max:20', new PhoneNumber],
             'company' => ['required', 'string', 'max:255'],
             'checked_in_at' => ['required', 'date', 'before_or_equal:now'],
             'needs_key' => ['boolean'],
+            'documents_accepted' => ['accepted'],
             'signature' => ['required', 'string', function (string $attribute, mixed $value, Closure $fail): void {
                 if (! is_string($value) || $this->decodeSignature($value) === null) {
                     $fail('Sinadura ez da baliozkoa. Sinatu berriro, mesedez.');
@@ -50,6 +52,7 @@ class StoreContractorShiftRequest extends FormRequest
         return [
             'checked_in_at.before_or_equal' => 'Sarrera ordua ezin da etorkizunekoa izan.',
             'signature.required' => 'Langileak sinatu egin behar du.',
+            'documents_accepted.accepted' => 'Langileak dokumentuak irakurri dituela onartu behar du sinatu aurretik.',
         ];
     }
 
