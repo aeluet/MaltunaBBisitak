@@ -6,7 +6,8 @@
             <div class="grid gap-5 sm:grid-cols-2">
                 <x-form.input name="first_name" label="Izena" :value="$contractor->first_name" required />
                 <x-form.input name="last_name" label="Abizena(k)" :value="$contractor->last_name" required />
-                <x-form.input name="phone" label="Telefonoa" type="tel" :value="$contractor->phone" required />
+                <x-form.input name="phone" label="Telefonoa" type="tel" :value="$contractor->phone" required
+                              pattern="[0-9 .\(\)\-\+]{9,20}" title="Telefono zenbakia: 9-15 digitu, adibidez 611 222 333 edo +34 611 222 333" />
                 <x-form.input name="company" label="Enpresa (nondik)" :value="$contractor->company" required />
                 <x-form.input name="checked_in_at" label="Sarrera eguna eta ordua" type="datetime-local" :value="$now" :max="$now" required />
                 <div class="flex items-end pb-2">

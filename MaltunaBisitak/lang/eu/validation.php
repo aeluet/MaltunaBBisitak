@@ -64,6 +64,8 @@ return [
     'unique' => ':attribute hori erabilita dago jada.',
     'uuid' => ':attribute eremuak UUID baliodun bat izan behar du.',
 
+    'phone' => ':attribute eremuak telefono zenbaki baliodun bat izan behar du (9-15 digitu; adibidez 611 222 333 edo +34 611 222 333).',
+
     'attributes' => [
         'name' => 'izena',
         'email' => 'posta elektronikoa',

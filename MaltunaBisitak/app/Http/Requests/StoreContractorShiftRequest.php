@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\PhoneNumber;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
@@ -30,7 +31,7 @@ class StoreContractorShiftRequest extends FormRequest
         return [
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
-            'phone' => ['required', 'string', 'max:20'],
+            'phone' => ['required', 'string', 'max:20', new PhoneNumber],
             'company' => ['required', 'string', 'max:255'],
             'checked_in_at' => ['required', 'date', 'before_or_equal:now'],
             'needs_key' => ['boolean'],

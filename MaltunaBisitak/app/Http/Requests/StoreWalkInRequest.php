@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Models\VisitAttendance;
 use App\Models\Visitor;
+use App\Rules\PhoneNumber;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -46,7 +47,7 @@ class StoreWalkInRequest extends FormRequest
             'last_name' => ['exclude_with:visitor_id', 'required', 'string', 'max:255'],
             'document_number' => ['exclude_with:visitor_id', 'nullable', 'string', 'max:20', Rule::unique('visitors')],
             'origin' => ['exclude_with:visitor_id', 'nullable', 'string', 'max:255'],
-            'phone' => ['exclude_with:visitor_id', 'nullable', 'string', 'max:20'],
+            'phone' => ['exclude_with:visitor_id', 'nullable', 'string', 'max:20', new PhoneNumber],
             'email' => ['exclude_with:visitor_id', 'nullable', 'email', 'max:255'],
             'host_id' => ['nullable', 'integer', Rule::exists('users', 'id')->where('is_active', true)],
             'notes' => ['nullable', 'string', 'max:2000'],

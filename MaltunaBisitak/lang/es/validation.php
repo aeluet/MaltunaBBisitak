@@ -37,6 +37,8 @@ return [
     'required_without' => 'El campo :attribute es obligatorio cuando :values no está presente.',
     'string' => 'El campo :attribute debe ser un texto.',
 
+    'phone' => 'El campo :attribute debe ser un número de teléfono válido (9-15 dígitos; por ejemplo 611 222 333 o +34 611 222 333).',
+
     'attributes' => [
         'first_name' => 'nombre',
         'last_name' => 'apellido',

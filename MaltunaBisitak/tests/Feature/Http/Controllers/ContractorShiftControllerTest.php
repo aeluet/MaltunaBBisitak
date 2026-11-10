@@ -97,6 +97,24 @@ describe('store', function () {
         'a signature that is not a png' => [['signature' => 'data:image/png;base64,'.base64_encode('<svg/>')], 'signature'],
         'a missing signature' => [['signature' => ''], 'signature'],
         'a check-in time in the future' => [['checked_in_at' => '2026-11-10T11:00'], 'checked_in_at'],
+        'a phone with letters' => [['phone' => '611abc333'], 'phone'],
+        'a phone that is too short' => [['phone' => '61122'], 'phone'],
+        'a phone that is too long' => [['phone' => '+3461122233344455'], 'phone'],
+        'a phone with a plus sign in the middle' => [['phone' => '611+222333'], 'phone'],
+    ]);
+
+    it('accepts phone numbers written in the usual ways', function (string $phone) {
+        $this->actingAs($this->receptionist)
+            ->post(route('contractor-shifts.store'), [...$this->checkInPayload, 'phone' => $phone])
+            ->assertSessionHasNoErrors();
+
+        expect(Contractor::sole()->phone)->toBe($phone);
+    })->with([
+        '611222333',
+        '611 22 23 33',
+        '943-12-34-56',
+        '+34 611 222 333',
+        '(+34) 611.222.333',
     ]);
 });
 
