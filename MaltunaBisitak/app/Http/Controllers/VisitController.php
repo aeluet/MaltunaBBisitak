@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\VisitStatus;
+use App\Mail\HostVisitApproved;
 use App\Mail\VisitApproved;
 use App\Mail\VisitCancelled;
 use App\Mail\VisitRejected;
@@ -81,9 +82,10 @@ class VisitController extends Controller
         $visit->approve($request->user(), $validated['response_message'] ?? null);
 
         $sent = $this->mailVisitors($visit, fn (Visitor $visitor) => new VisitApproved($visit, $visitor->first_name, $visitor->attendance->code));
+        $hostNotice = $this->mailHost($visit) ? " {$visit->host->name} arduradunari ere jakinarazi zaio." : '';
 
         return redirect()->route('visits.show', $visit)
-            ->with('status', "Bisita onartuta. QR kodea {$sent} bisitariri bidali zaie emailez.");
+            ->with('status', "Bisita onartuta. QR kodea {$sent} bisitariri bidali zaie emailez.{$hostNotice}");
     }
 
     public function reject(Request $request, Visit $visit): RedirectResponse
@@ -138,5 +140,19 @@ class VisitController extends Controller
         }
 
         return $recipients->count();
+    }
+
+    /**
+     * The teacher who hosts the visit gets the details in Basque, with a link for their calendar.
+     */
+    private function mailHost(Visit $visit): bool
+    {
+        if (blank($visit->host?->email)) {
+            return false;
+        }
+
+        rescue(fn () => Mail::to($visit->host->email)->locale('eu')->send(new HostVisitApproved($visit)));
+
+        return true;
     }
 }

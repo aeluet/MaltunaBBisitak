@@ -25,7 +25,7 @@ beforeEach(function () {
         'is_group' => '1',
         'group_size' => '24',
         'visitors' => [
-            ['first_name' => 'Ane', 'last_name' => 'Zubiaurre', 'email' => 'ane@example.com', 'country' => 'ES'],
+            ['first_name' => 'Ane', 'last_name' => 'Zubiaurre', 'email' => 'ane@example.com', 'country' => 'XE'],
             ['first_name' => 'Jon', 'last_name' => 'Agirre', 'email' => '', 'country' => 'FR'],
         ],
         'privacy' => '1',
@@ -72,6 +72,13 @@ describe('create', function () {
             ->assertDontSee('value="2026-11-09"', escape: false);
     });
 
+    it('selects Euskal Herria as the default country of every visitor', function () {
+        $this->get(route('bookings.create', ['locale' => 'es']))
+            ->assertOk()
+            ->assertSee('<option value="XE" selected>Euskal Herria</option>', escape: false)
+            ->assertDontSee('<option value="ES" selected>', escape: false);
+    });
+
     it('explains when there are no open days', function () {
         AvailableDate::query()->delete();
 
@@ -97,7 +104,8 @@ describe('store', function () {
             ->and($visit->group_size)->toBe(24)
             ->and($visit->types->modelKeys())->toBe([$this->visitType->id])
             ->and($visit->visitors->map->full_name->sort()->values()->all())->toBe(['Ane Zubiaurre', 'Jon Agirre'])
-            ->and(Visitor::where('email', 'ane@example.com')->sole()->origin)->toBe('Arizmendi Ikastola');
+            ->and(Visitor::where('email', 'ane@example.com')->sole()->origin)->toBe('Arizmendi Ikastola')
+            ->and(Visitor::where('email', 'ane@example.com')->sole()->country)->toBe('XE');
     });
 
     it('accepts a visit for today when today is open', function () {

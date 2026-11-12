@@ -83,6 +83,15 @@ describe('store', function () {
     });
 });
 
+describe('create', function () {
+    it('selects Euskal Herria as the default country', function () {
+        $this->actingAs($this->receptionist)
+            ->get(route('visitors.create'))
+            ->assertOk()
+            ->assertSee('<option value="XE" selected>Euskal Herria</option>', escape: false);
+    });
+});
+
 describe('show', function () {
     it('shows the visitor with their visit history', function () {
         $visitor = Visitor::factory()->create(['country' => 'FR']);

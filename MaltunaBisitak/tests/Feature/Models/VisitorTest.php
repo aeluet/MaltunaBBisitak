@@ -10,6 +10,20 @@ it('finds visitors when every searched word matches some field', function () {
         ->and(Visitor::search('  arizmendi ')->pluck('id')->all())->toBe([$ane->id]);
 });
 
+it('offers Euskal Herria first among the countries in every language', function (string $locale) {
+    app()->setLocale($locale);
+
+    expect(array_key_first(Visitor::countryOptions()))->toBe(Visitor::BASQUE_COUNTRY)
+        ->and(Visitor::countryOptions()[Visitor::BASQUE_COUNTRY])->toBe('Euskal Herria')
+        ->and(Visitor::countryOptions())->toHaveKey('FR');
+})->with(['eu', 'es', 'en']);
+
+it('names Euskal Herria and the ISO countries', function () {
+    expect((new Visitor(['country' => Visitor::BASQUE_COUNTRY]))->country_name)->toBe('Euskal Herria')
+        ->and((new Visitor(['country' => 'FR']))->country_name)->toBe('Frantzia')
+        ->and((new Visitor)->country_name)->toBeNull();
+});
+
 it('normalises document numbers', function (string $input) {
     expect(Visitor::normalizeDocumentNumber($input))->toBe('12345678Z');
 })->with(['12345678Z', '12345678 z', '12345678-z', ' 1234 5678 Z ']);
