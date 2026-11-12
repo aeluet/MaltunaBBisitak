@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\VisitStatus;
+use App\Mail\HostVisitApproved;
 use App\Mail\VisitApproved;
 use App\Mail\VisitCancelled;
 use App\Mail\VisitRejected;
@@ -96,10 +97,23 @@ describe('approve', function () {
             ->and($visit->reviewed_by)->toBe($this->receptionist->id)
             ->and($visit->response_message)->toBe('Itxaron sarrera nagusian.');
 
-        Mail::assertSentCount(1);
+        Mail::assertSentCount(2);
         Mail::assertSent(VisitApproved::class, fn (VisitApproved $mail) => $mail->hasTo('ane@example.com')
             && $mail->locale === 'es'
             && $mail->code === $aneCode);
+        Mail::assertSent(HostVisitApproved::class, fn (HostVisitApproved $mail) => $mail->hasTo($teacher->email)
+            && $mail->visit->is($visit));
+    });
+
+    it('only emails the visitors when nobody hosts the visit', function () {
+        $visit = pendingVisitWithVisitors();
+
+        $this->actingAs($this->receptionist)
+            ->post(route('visits.approve', $visit))
+            ->assertRedirect(route('visits.show', $visit));
+
+        Mail::assertSent(VisitApproved::class);
+        Mail::assertNotSent(HostVisitApproved::class);
     });
 
     it('refuses a visit that is no longer pending', function () {

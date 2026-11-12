@@ -32,7 +32,7 @@ class VisitorController extends Controller
     public function create(): View
     {
         return view('visitors.create', [
-            'visitor' => new Visitor(['country' => 'ES']),
+            'visitor' => new Visitor(['country' => Visitor::BASQUE_COUNTRY]),
             'countries' => Visitor::countryOptions(),
         ]);
     }

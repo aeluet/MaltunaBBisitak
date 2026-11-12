@@ -16,6 +16,6 @@
                       :value="$visitor['email'] ?? null" :required="$isContact" autocomplete="email"
                       :hint="$isContact ? __('public.visitors.contact_hint') : null" />
         <x-form.select :name="'visitors['.$index.'][country]'" :label="__('public.fields.country')"
-                       :options="$countries" :selected="$visitor['country'] ?? 'ES'" required />
+                       :options="$countries" :selected="$visitor['country'] ?? \App\Models\Visitor::BASQUE_COUNTRY" required />
     </div>
 </div>

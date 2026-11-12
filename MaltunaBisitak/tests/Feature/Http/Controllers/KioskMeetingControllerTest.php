@@ -30,6 +30,7 @@ it('offers the form and a QR code to register from the phone', function () {
         ->assertSee('Enpresen topaketa')
         ->assertSee('data:image/png;base64,', escape: false)
         ->assertSee('name="country"', escape: false)
+        ->assertSee('<option value="XE" selected>Euskal Herria</option>', escape: false)
         ->assertSee('Izena ematean, datu-babesari buruzko arauak onartzen dituzu.')
         ->assertSee(config('bisitak.privacy_url'));
 });

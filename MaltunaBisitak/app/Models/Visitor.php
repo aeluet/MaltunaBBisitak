@@ -21,6 +21,14 @@ class Visitor extends Model
     use HasFactory, SoftDeletes;
 
     /**
+     * Euskal Herria has no ISO 3166 code ("EH" is Western Sahara), so it uses one from the
+     * user-assigned X range. It comes first and is the default country of every form.
+     */
+    public const string BASQUE_COUNTRY = 'XE';
+
+    private const string BASQUE_COUNTRY_NAME = 'Euskal Herria';
+
+    /**
      * ICU region codes that are not countries.
      */
     private const array NON_COUNTRY_REGIONS = ['EU', 'EZ', 'QO', 'UN', 'XA', 'XB', 'ZZ'];
@@ -36,7 +44,8 @@ class Visitor extends Model
     }
 
     /**
-     * ISO 3166 country codes with their names in the application locale, sorted by name.
+     * Euskal Herria followed by the ISO 3166 country codes with their names in the
+     * application locale, sorted by name.
      *
      * @return array<string, string>
      */
@@ -61,7 +70,7 @@ class Visitor extends Model
 
             asort($countries, SORT_LOCALE_STRING);
 
-            return $countries;
+            return [self::BASQUE_COUNTRY => self::BASQUE_COUNTRY_NAME, ...$countries];
         });
     }
 
@@ -70,9 +79,11 @@ class Visitor extends Model
      */
     protected function countryName(): Attribute
     {
-        return Attribute::get(fn (): ?string => $this->country
-            ? Locale::getDisplayRegion("-{$this->country}", app()->getLocale())
-            : null);
+        return Attribute::get(fn (): ?string => match ($this->country) {
+            null, '' => null,
+            self::BASQUE_COUNTRY => self::BASQUE_COUNTRY_NAME,
+            default => Locale::getDisplayRegion("-{$this->country}", app()->getLocale()),
+        });
     }
 
     /**

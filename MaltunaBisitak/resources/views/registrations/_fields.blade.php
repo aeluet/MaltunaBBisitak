@@ -3,7 +3,7 @@
 <x-form.input name="origin" :label="__('kiosk.fields.origin')" :value="$origin" required autocomplete="organization" />
 <x-form.input name="email" :label="__('kiosk.fields.email')" type="email" required autocomplete="email" />
 <x-form.select name="country" :label="__('kiosk.fields.country')" :options="\App\Models\Visitor::countryOptions()"
-               :placeholder="__('kiosk.fields.country_placeholder')" autocomplete="country" />
+               :selected="\App\Models\Visitor::BASQUE_COUNTRY" :placeholder="__('kiosk.fields.country_placeholder')" autocomplete="country" />
 
 <p class="col-span-full rounded-lg bg-slate-50 p-4 text-sm text-slate-600 ring-1 ring-slate-200">
     {{ __('kiosk.privacy.notice') }}
