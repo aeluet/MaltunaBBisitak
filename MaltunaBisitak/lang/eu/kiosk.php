@@ -8,7 +8,7 @@ return [
         'meetings' => 'Bilera',
         'meetings_help' => 'Gaurko bilera batean izena eman',
         'visits' => 'Bisita',
-        'visits_help' => 'Taldean zatozte? Eman izena edo sortu bisita berria',
+        'visits_help' => 'Bisita batera zatozte? Eman izena edo sortu bisita berria',
         'today' => '{0} Gaur ez dago|{1} Gaur: 1|[2,*] Gaur: :count',
     ],
 
@@ -24,11 +24,12 @@ return [
     ],
 
     'groups' => [
-        'heading' => 'Taldean zatozte?',
-        'help' => 'Aukeratu zure taldea eta eman izena.',
+        'heading' => 'Zein bisitatara zatozte?',
+        'help' => 'Aukeratu zuen bisita eta eman izena, bakarka edo taldean etorri.',
         'people' => '{1} Pertsona 1|[2,*] :count pertsona',
         'registered' => '{0} Oraindik inork ez du izena eman|{1} Pertsona batek eman du izena|[2,*] :count pertsonak eman dute izena',
-        'empty' => 'Gaur ez dago talde-bisitarik.',
+        'empty' => 'Gaur ez dago bisitarik.',
+        'unnamed' => 'Izenik gabeko bisita',
         'new_heading' => 'Bisita berria',
         'new_help' => 'Zuen taldea ez badago zerrendan, sortu bisita berria eta eman izena.',
         'new_origin' => 'Taldearen izena / Nondik (ikastetxea, enpresa…)',

@@ -27,13 +27,14 @@ describe('home', function () {
         Meeting::factory()->count(2)->create(['date' => '2026-11-10']);
         Meeting::factory()->create(['date' => '2026-11-11']);
         Visit::factory()->group(20)->approved()->today()->create(['origin' => 'Gaurko taldea']);
+        Visit::factory()->approved()->today()->create(['origin' => 'Bakarkako bisita']);
         Visit::factory()->group(20)->today()->create(['origin' => 'Zain dagoen taldea']);
 
         $this->get(route('kiosk.home', ['locale' => 'eu']))
             ->assertOk()
             ->assertSee(route('kiosk.meetings.index', ['locale' => 'eu']))
             ->assertSee(route('kiosk.groups.index', ['locale' => 'eu']))
-            ->assertSeeInOrder(['Bilera', 'Gaur: 2', 'Bisita', 'Gaur: 1'])
+            ->assertSeeInOrder(['Bilera', 'Gaur: 2', 'Bisita', 'Gaur: 2'])
             ->assertSee('Aplikazio hau WAGeko ikasle eta irakasleen arteko elkarlanean garatu da.');
     });
 });

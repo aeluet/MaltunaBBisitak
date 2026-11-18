@@ -18,7 +18,7 @@ class KioskController extends Controller
     {
         return view('kiosk.home', [
             'meetingsCount' => Meeting::whereDate('date', today())->count(),
-            'groupsCount' => KioskGroupController::todaysGroups()->count(),
+            'visitsCount' => KioskGroupController::todaysVisits()->count(),
         ]);
     }
 

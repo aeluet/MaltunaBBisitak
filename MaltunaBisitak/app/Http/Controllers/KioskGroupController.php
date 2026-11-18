@@ -13,20 +13,20 @@ use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 /**
- * Group visits at the kiosk: members who were not named in the request sign up and get their label (PW008).
- * A group that arrives without a booking can open its own visit here, as in the original kiosk.
+ * Today's visits at the kiosk: members who were not named in the request sign up and get their label (PW008),
+ * also when a visit booked for one person comes with more people. A group that arrives without a booking
+ * can open its own visit here, as in the original kiosk.
  */
 class KioskGroupController extends Controller
 {
     /**
-     * Approved group visits for today, the ones the kiosk offers.
+     * Every visit approved for today, in a group or not: someone booked for one person may come with others.
      *
      * @return Builder<Visit>
      */
-    public static function todaysGroups(): Builder
+    public static function todaysVisits(): Builder
     {
         return Visit::where('status', VisitStatus::Approved)
-            ->where('is_group', true)
             ->whereDate('visit_date', today());
     }
 
@@ -36,7 +36,7 @@ class KioskGroupController extends Controller
     public function index(): View
     {
         return view('kiosk.groups', [
-            'groups' => self::todaysGroups()->withCount('attendances')->orderBy('origin')->get(),
+            'groups' => self::todaysVisits()->withCount('attendances')->orderBy('origin')->get(),
         ]);
     }
 
@@ -48,7 +48,7 @@ class KioskGroupController extends Controller
     {
         $origin = trim($request->validate(['origin' => ['required', 'string', 'max:255']])['origin']);
 
-        $visit = self::todaysGroups()->whereRaw('lower(origin) = ?', [mb_strtolower($origin)])->first()
+        $visit = self::todaysVisits()->whereRaw('lower(origin) = ?', [mb_strtolower($origin)])->first()
             ?? Visit::create([
                 'visit_date' => today(),
                 'origin' => $origin,

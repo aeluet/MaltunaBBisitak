@@ -8,7 +8,7 @@ return [
         'meetings' => 'Meeting',
         'meetings_help' => "Sign in to one of today's meetings",
         'visits' => 'Visit',
-        'visits_help' => 'Coming as a group? Sign in or create a new visit',
+        'visits_help' => 'Here for a visit? Sign in or create a new visit',
         'today' => '{0} None today|{1} Today: 1|[2,*] Today: :count',
     ],
 
@@ -24,11 +24,12 @@ return [
     ],
 
     'groups' => [
-        'heading' => 'Coming as a group?',
-        'help' => 'Choose your group and sign in.',
+        'heading' => 'Which visit are you here for?',
+        'help' => 'Choose your visit and sign in, whether you came alone or as a group.',
         'people' => '{1} 1 person|[2,*] :count people',
         'registered' => '{0} Nobody has signed in yet|{1} 1 person has signed in|[2,*] :count people have signed in',
-        'empty' => 'There are no group visits today.',
+        'empty' => 'There are no visits today.',
+        'unnamed' => 'Visit without a name',
         'new_heading' => 'New visit',
         'new_help' => 'If your group is not on the list, create a new visit and sign in.',
         'new_origin' => 'Group name / Where you are from (school, company…)',
