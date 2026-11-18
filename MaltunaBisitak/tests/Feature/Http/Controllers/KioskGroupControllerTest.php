@@ -27,6 +27,25 @@ it('registers a group member at the kiosk, checks them in and prints their label
         ->and($attendance->checked_in_at->toDateTimeString())->toBe('2026-11-10 09:00:00');
 });
 
+it('lets someone who came along register in a visit booked for one person', function () {
+    $visit = Visit::factory()->approved()->today()->create(['origin' => 'Elkar']);
+    $visit->visitors()->attach(Visitor::factory()->create(['first_name' => 'Ane']), ['checked_in_at' => '2026-11-10 08:55']);
+
+    $this->get(route('kiosk.groups.show', ['locale' => 'eu', 'visit' => $visit]))
+        ->assertOk()
+        ->assertSee('Elkar');
+
+    $this->post(route('kiosk.groups.store', ['locale' => 'eu', 'visit' => $visit]), [
+        'first_name' => 'Jon',
+        'last_name' => 'Agirre',
+        'origin' => 'Elkar',
+        'email' => 'jon@example.com',
+    ])->assertRedirect(route('kiosk.done', ['locale' => 'eu']));
+
+    expect($visit->attendances()->count())->toBe(2)
+        ->and($visit->refresh()->is_group)->toBeFalse();
+});
+
 it('is only available for visits approved for today', function (array $attributes) {
     $visit = Visit::factory()->group(20)->create($attributes);
 
@@ -38,17 +57,28 @@ it('is only available for visits approved for today', function (array $attribute
 ]);
 
 describe('index', function () {
-    it('lists today\'s approved groups and offers to create a new visit', function () {
+    it('lists every visit approved for today, in a group or not, and offers to create a new one', function () {
         Visit::factory()->group(20)->approved()->today()->create(['origin' => 'Gaurko taldea']);
-        Visit::factory()->group(20)->today()->create(['origin' => 'Zain dagoen taldea']);
         Visit::factory()->approved()->today()->create(['origin' => 'Bakarkako bisita']);
+        Visit::factory()->group(20)->today()->create(['origin' => 'Zain dagoen taldea']);
+        Visit::factory()->approved()->create(['visit_date' => '2026-11-11', 'origin' => 'Biharko bisita']);
+        Visit::factory()->approved()->today()->create(['origin' => null]);
 
         $this->get(route('kiosk.groups.index', ['locale' => 'eu']))
             ->assertOk()
+            ->assertSee('Zein bisitatara zatozte?')
             ->assertSee('Gaurko taldea')
+            ->assertSee('Bakarkako bisita')
+            ->assertSee('Izenik gabeko bisita')
             ->assertDontSee('Zain dagoen taldea')
-            ->assertDontSee('Bakarkako bisita')
+            ->assertDontSee('Biharko bisita')
             ->assertSee(route('kiosk.groups.open', ['locale' => 'eu']));
+    });
+
+    it('says when there are no visits today', function () {
+        $this->get(route('kiosk.groups.index', ['locale' => 'es']))
+            ->assertOk()
+            ->assertSee('Hoy no hay visitas.');
     });
 });
 
@@ -75,6 +105,15 @@ describe('open', function () {
         $existing = Visit::factory()->group(20)->approved()->today()->create(['origin' => 'Usandizaga BHI']);
 
         $this->post(route('kiosk.groups.open', ['locale' => 'eu']), ['origin' => 'usandizaga bhi'])
+            ->assertRedirect(route('kiosk.groups.show', ['locale' => 'eu', 'visit' => $existing]));
+
+        expect(Visit::count())->toBe(1);
+    });
+
+    it('reuses today\'s visit for one person with the same name', function () {
+        $existing = Visit::factory()->approved()->today()->create(['origin' => 'Elkar']);
+
+        $this->post(route('kiosk.groups.open', ['locale' => 'eu']), ['origin' => 'elkar'])
             ->assertRedirect(route('kiosk.groups.show', ['locale' => 'eu', 'visit' => $existing]));
 
         expect(Visit::count())->toBe(1);

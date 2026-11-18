@@ -11,7 +11,7 @@
                 @forelse ($groups as $group)
                     <a href="{{ route('kiosk.groups.show', $group) }}"
                        class="block rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200 hover:ring-2 hover:ring-brand-600">
-                        <p class="text-2xl font-semibold text-brand-800">{{ $group->origin }}</p>
+                        <p class="text-2xl font-semibold text-brand-800">{{ $group->origin ?: __('kiosk.groups.unnamed') }}</p>
                         <p class="mt-1 text-lg text-slate-600">
                             {{ $group->group_size
                                 ? trans_choice('kiosk.groups.people', $group->group_size, ['count' => $group->group_size])

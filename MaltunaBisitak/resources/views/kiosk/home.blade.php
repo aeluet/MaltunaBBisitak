@@ -16,7 +16,7 @@
     <nav class="mt-6 grid min-h-0 flex-1 grid-cols-2 gap-6 portrait:grid-cols-1">
         @foreach ([
             ['route' => 'kiosk.meetings.index', 'icon' => 'meeting', 'label' => __('kiosk.home.meetings'), 'help' => __('kiosk.home.meetings_help'), 'count' => $meetingsCount],
-            ['route' => 'kiosk.groups.index', 'icon' => 'visit', 'label' => __('kiosk.home.visits'), 'help' => __('kiosk.home.visits_help'), 'count' => $groupsCount],
+            ['route' => 'kiosk.groups.index', 'icon' => 'visit', 'label' => __('kiosk.home.visits'), 'help' => __('kiosk.home.visits_help'), 'count' => $visitsCount],
         ] as $tile)
             <a href="{{ route($tile['route']) }}"
                class="bg-brand-gradient group flex min-h-0 flex-col items-center justify-center gap-3 overflow-hidden rounded-2xl p-6 text-center text-white shadow-md transition hover:shadow-xl hover:brightness-110 active:scale-[0.99]">

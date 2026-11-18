@@ -8,7 +8,7 @@ return [
         'meetings' => 'Reunión',
         'meetings_help' => 'Regístrate en una reunión de hoy',
         'visits' => 'Visita',
-        'visits_help' => '¿Venís en grupo? Regístrate o crea una visita nueva',
+        'visits_help' => '¿Venís a una visita? Regístrate o crea una visita nueva',
         'today' => '{0} Hoy no hay|{1} Hoy: 1|[2,*] Hoy: :count',
     ],
 
@@ -24,11 +24,12 @@ return [
     ],
 
     'groups' => [
-        'heading' => '¿Venís en grupo?',
-        'help' => 'Elige tu grupo y regístrate.',
+        'heading' => '¿A qué visita venís?',
+        'help' => 'Elige vuestra visita y regístrate, vengáis solos o en grupo.',
         'people' => '{1} 1 persona|[2,*] :count personas',
         'registered' => '{0} Todavía no se ha registrado nadie|{1} Se ha registrado 1 persona|[2,*] Se han registrado :count personas',
-        'empty' => 'Hoy no hay visitas de grupo.',
+        'empty' => 'Hoy no hay visitas.',
+        'unnamed' => 'Visita sin nombre',
         'new_heading' => 'Visita nueva',
         'new_help' => 'Si vuestro grupo no está en la lista, cread una visita nueva y registraos.',
         'new_origin' => 'Nombre del grupo / De dónde (centro, empresa…)',

@@ -1,6 +1,6 @@
-<x-layouts.kiosk :title="$visit->origin">
+<x-layouts.kiosk :title="$visit->origin ?: __('kiosk.groups.unnamed')">
     @include('kiosk._register', [
-        'heading' => $visit->origin,
+        'heading' => $visit->origin ?: __('kiosk.groups.unnamed'),
         'subheading' => $visit->group_size
             ? trans_choice('kiosk.groups.people', $visit->group_size, ['count' => $visit->group_size])
             : trans_choice('kiosk.groups.registered', $attendances->count(), ['count' => $attendances->count()]),
